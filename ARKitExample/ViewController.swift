@@ -15,14 +15,20 @@ let kRotationRadianPerLoop: CGFloat = 0.2
 var toggleStateDroneOnOff = 1
 var toggleStatelightOnOff = 1
 
+var xPos:CGFloat = 0.0
+var yPos:CGFloat = 0.0
+var zPos:CGFloat = 0.0
+
 class ViewController: UIViewController {
     
+    @IBOutlet weak var viewTop: UIView!
     @IBOutlet weak var viewBottomLeft: UIView!
     @IBOutlet weak var viewBottomRight: UIView!
     @IBOutlet weak var viewBottomCenter: UIView!
     
     @IBOutlet weak var imgLightsOnOff: UIImageView!
     @IBOutlet weak var imgDroneOnOff: UIImageView!
+    
     @IBOutlet weak var sceneView: ARSCNView!
     
     var drone = Drone()
@@ -30,36 +36,101 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupScene()
+//        setupScene()
+        addTapGestureToSceneView()
+        configureLighting()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setupConfiguration()
+//        setupConfiguration()
+        setUpSceneView()
     }
     
-    func addDrone() {
-        drone.loadModel()
-        drone.position = kStartingPosition
-        drone.scale = SCNVector3(0.002, 0.002, 0.002)
-        drone.rotation = SCNVector4Zero
-        sceneView.scene.rootNode.addChildNode(drone)
-        self.viewBottomLeft.isHidden = false
-        self.viewBottomRight.isHidden = false
-        self.viewBottomCenter.isHidden = false
+    func configureLighting() {
+        sceneView.autoenablesDefaultLighting = true
+        sceneView.automaticallyUpdatesLighting = true
     }
     
+    @objc func addShipToSceneView(withGestureRecognizer recognizer: UIGestureRecognizer) {
+        let tapLocation = recognizer.location(in: sceneView)
+        let hitTestResults = sceneView.hitTest(tapLocation, types: .existingPlaneUsingExtent)
+        
+        guard let hitTestResult = hitTestResults.first else { return }
+        let translation = hitTestResult.worldTransform.translation
+        let x = translation.x
+        let y = translation.y
+        let z = translation.z
+        
+        guard let shipScene = SCNScene(named: "ship.scn"),
+        let shipNode = shipScene.rootNode.childNode(withName: "ship", recursively: false)
+            else { return }
+        shipNode.position = SCNVector3(x,y,z)
+        shipNode.scale = SCNVector3(0.0008, 0.0008, 0.0008)
+        shipNode.rotation = SCNVector4Zero
+        sceneView.scene.rootNode.addChildNode(shipNode)
+    }
+    
+    func addTapGestureToSceneView() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(ViewController.addShipToSceneView(withGestureRecognizer:)))
+        sceneView.addGestureRecognizer(tapGestureRecognizer)
+    }
+
     // MARK: - setup
-    func setupScene() {
-        let scene = SCNScene()
-        sceneView.scene = scene
+    //    func setupScene() {
+    //        let scene = SCNScene()
+    //        sceneView.scene = scene
+    //        sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
+    //    }
+    //
+    //    func setupConfiguration() {
+    //                let configuration = ARWorldTrackingConfiguration()
+    //                sceneView.session.run(configuration)
+    //                configuration.planeDetection = .horizontal
+    //    }
+    
+    func setUpSceneView() {
+        let configuration = ARWorldTrackingConfiguration()
+        configuration.planeDetection = .horizontal
+        sceneView.session.run(configuration)
+        sceneView.delegate = self
         sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
     }
     
-    func setupConfiguration() {
-        let configuration = ARWorldTrackingConfiguration()
-        sceneView.session.run(configuration)
-        configuration.planeDetection = .horizontal
+    func addDrone() {
+        if xPos == 0.0 && yPos == 0.0 && zPos == 0.0 {
+            let alert = UIAlertController(title: "Attention", message: "No Plan Detected to place the object", preferredStyle: UIAlertControllerStyle.alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                switch action.style{
+                case .default:
+                    print("default")
+                case .cancel:
+                    print("cancel")
+                case .destructive:
+                    print("destructive")
+                }}))
+            self.present(alert, animated: true, completion: nil)
+            
+        }else{
+//            drone.loadModel()
+//            drone.position = SCNVector3(xPos,yPos,zPos)
+//            drone.scale = SCNVector3(0.002, 0.002, 0.002)
+//            drone.rotation = SCNVector4Zero
+//            sceneView.scene.rootNode.addChildNode(drone)
+            
+            guard let shipScene = SCNScene(named: "ship.scn"),
+                let shipNode = shipScene.rootNode.childNode(withName: "ship", recursively: false)
+                else { return }
+            shipNode.position = SCNVector3(xPos,yPos,zPos)
+            shipNode.scale = SCNVector3(0.0008, 0.0008, 0.0008)
+            shipNode.rotation = SCNVector4Zero
+            sceneView.scene.rootNode.addChildNode(shipNode)
+            
+//            self.viewTop.isHidden = true
+            self.viewBottomLeft.isHidden = false
+            self.viewBottomRight.isHidden = false
+            self.viewBottomCenter.isHidden = false
+        }
     }
     
     // MARK: - actions
@@ -180,36 +251,40 @@ class ViewController: UIViewController {
      }
      */
     
-    func session(_ session: ARSession, didFailWithError error: Error) {
-        // Present an error message to the user
-    }
     
-    func sessionWasInterrupted(_ session: ARSession) {
-        // Inform the user that the session has been interrupted, for example, by presenting an overlay
-    }
     
-    func sessionInterruptionEnded(_ session: ARSession) {
-        // Reset tracking and/or remove existing anchors if consistent tracking is required
-    }
+//    func session(_ session: ARSession, didFailWithError error: Error) {
+//        // Present an error message to the user
+//    }
+//    
+//    func sessionWasInterrupted(_ session: ARSession) {
+//        // Inform the user that the session has been interrupted, for example, by presenting an overlay
+//    }
+//    
+//    func sessionInterruptionEnded(_ session: ARSession) {
+//        // Reset tracking and/or remove existing anchors if consistent tracking is required
+//    }
+//    
+//    // 1.
+//    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
+//        let grid = Grid(anchor: anchor as! ARPlaneAnchor)
+//        self.grids.append(grid)
+//        node.addChildNode(grid)
+//    }
+//    // 2.
+//    func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
+//        let grid = self.grids.filter { grid in
+//            return grid.anchor.identifier == anchor.identifier
+//            }.first
+//
+//        guard let foundGrid = grid else {
+//            return
+//        }
+//
+//        foundGrid.update(anchor: anchor as! ARPlaneAnchor)
+//    }
     
-    // 1.
-    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-        let grid = Grid(anchor: anchor as! ARPlaneAnchor)
-        self.grids.append(grid)
-        node.addChildNode(grid)
-    }
-    // 2.
-    func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
-        let grid = self.grids.filter { grid in
-            return grid.anchor.identifier == anchor.identifier
-            }.first
-
-        guard let foundGrid = grid else {
-            return
-        }
-
-        foundGrid.update(anchor: anchor as! ARPlaneAnchor)
-    }
+    
     
 //    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
 //        // Your code goes here
@@ -230,4 +305,73 @@ class ViewController: UIViewController {
 //
 //        node.addChildNode(planeNode)
     
+}
+
+
+extension ViewController: ARSCNViewDelegate {
+    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
+        // 1
+        guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
+        
+        // 2
+        let width = CGFloat(planeAnchor.extent.x)
+        let height = CGFloat(planeAnchor.extent.z)
+        let plane = SCNPlane(width: width, height: height)
+        
+        // 3
+        plane.materials.first?.diffuse.contents = UIColor.transparentLightBlue
+        
+        // 4
+        let planeNode = SCNNode(geometry: plane)
+        
+        // 5
+        xPos = CGFloat(planeAnchor.center.x)
+        yPos = CGFloat(planeAnchor.center.y)
+        zPos = CGFloat(planeAnchor.center.z)
+        planeNode.position = SCNVector3(xPos,yPos,zPos)
+        planeNode.eulerAngles.x = -.pi / 2
+        
+        // 6
+        node.addChildNode(planeNode)
+        
+        // Added by Akhzar Nazir
+//        drone.loadModel()
+//        drone.position = SCNVector3(xPos,yPos,zPos)
+//        drone.scale = SCNVector3(0.002, 0.002, 0.002)
+//        drone.rotation = SCNVector4Zero
+//        sceneView.scene.rootNode.addChildNode(drone)
+    }
+    
+    func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
+        // 1
+        guard let planeAnchor = anchor as?  ARPlaneAnchor,
+            let planeNode = node.childNodes.first,
+            let plane = planeNode.geometry as? SCNPlane
+            else { return }
+        
+        // 2
+        let width = CGFloat(planeAnchor.extent.x)
+        let height = CGFloat(planeAnchor.extent.z)
+        plane.width = width
+        plane.height = height
+        
+        // 3
+        let x = CGFloat(planeAnchor.center.x)
+        let y = CGFloat(planeAnchor.center.y)
+        let z = CGFloat(planeAnchor.center.z)
+        planeNode.position = SCNVector3(x, y, z)
+    }
+}
+
+extension float4x4 {
+    var translation: float3 {
+        let translation = self.columns.3
+        return float3(translation.x, translation.y, translation.z)
+    }
+}
+
+extension UIColor {
+    open class var transparentLightBlue: UIColor {
+        return UIColor(red: 90/255, green: 200/255, blue: 250/255, alpha: 0.50)
+    }
 }

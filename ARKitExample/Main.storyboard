@@ -4,6 +4,7 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -198,6 +199,7 @@
                         <outlet property="viewBottomCenter" destination="HeN-yf-Kg3" id="dTM-4A-zqe"/>
                         <outlet property="viewBottomLeft" destination="AcT-Ke-uxH" id="7n9-Qd-y2n"/>
                         <outlet property="viewBottomRight" destination="Huz-8V-WtG" id="TZL-E7-LPD"/>
+                        <outlet property="viewTop" destination="RNE-qf-e5R" id="eSX-a5-dKP"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

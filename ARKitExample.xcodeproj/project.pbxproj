@@ -12,6 +12,8 @@
 		6179CE831F5EFD6000F1B690 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6179CE821F5EFD6000F1B690 /* ViewController.swift */; };
 		6179CE881F5EFD6000F1B690 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6179CE871F5EFD6000F1B690 /* Assets.xcassets */; };
 		6179CE8B1F5EFD6000F1B690 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6179CE891F5EFD6000F1B690 /* LaunchScreen.storyboard */; };
+		F30875F020F697E2007A3D41 /* ship.png in Resources */ = {isa = PBXBuildFile; fileRef = F30875EE20F697E2007A3D41 /* ship.png */; };
+		F30875F120F697E2007A3D41 /* ship.scn in Resources */ = {isa = PBXBuildFile; fileRef = F30875EF20F697E2007A3D41 /* ship.scn */; };
 		F339851B20F62D0B00E88B64 /* 11-07-2018 in Resources */ = {isa = PBXBuildFile; fileRef = F339851A20F62D0A00E88B64 /* 11-07-2018 */; };
 		F339851E20F6365300E88B64 /* 001_Drone.dae in Resources */ = {isa = PBXBuildFile; fileRef = F339851C20F6365300E88B64 /* 001_Drone.dae */; };
 		F339851F20F6365300E88B64 /* Environment_Lat-Lon.png in Resources */ = {isa = PBXBuildFile; fileRef = F339851D20F6365300E88B64 /* Environment_Lat-Lon.png */; };
@@ -31,6 +33,8 @@
 		6179CE871F5EFD6000F1B690 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6179CE8A1F5EFD6000F1B690 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6179CE8C1F5EFD6000F1B690 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F30875EE20F697E2007A3D41 /* ship.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ship.png; sourceTree = "<group>"; };
+		F30875EF20F697E2007A3D41 /* ship.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = ship.scn; sourceTree = "<group>"; };
 		F339851A20F62D0A00E88B64 /* 11-07-2018 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "11-07-2018"; sourceTree = "<group>"; };
 		F339851C20F6365300E88B64 /* 001_Drone.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = 001_Drone.dae; sourceTree = "<group>"; };
 		F339851D20F6365300E88B64 /* Environment_Lat-Lon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Environment_Lat-Lon.png"; sourceTree = "<group>"; };
@@ -75,10 +79,10 @@
 			children = (
 				6179CE801F5EFD6000F1B690 /* AppDelegate.swift */,
 				6179CE821F5EFD6000F1B690 /* ViewController.swift */,
-				F3E85E3920F686E9009D62F6 /* Main.storyboard */,
-				F339851A20F62D0A00E88B64 /* 11-07-2018 */,
 				616C11931F62D7150002A468 /* Drone.swift */,
 				F39836C820F5625A00DC4CFC /* Grid.swift */,
+				F3E85E3920F686E9009D62F6 /* Main.storyboard */,
+				F339851A20F62D0A00E88B64 /* 11-07-2018 */,
 				F339851C20F6365300E88B64 /* 001_Drone.dae */,
 				F339851D20F6365300E88B64 /* Environment_Lat-Lon.png */,
 				F39836C620F555EA00DC4CFC /* Drone.dae */,
@@ -86,6 +90,8 @@
 				FC7243E920F417500087D9C4 /* sphere.dae */,
 				FC7243EB20F4175B0087D9C4 /* sphere.scn */,
 				FCA0E65D20F527BC00086AB1 /* 3d-model.scn */,
+				F30875EE20F697E2007A3D41 /* ship.png */,
+				F30875EF20F697E2007A3D41 /* ship.scn */,
 				6179CE871F5EFD6000F1B690 /* Assets.xcassets */,
 				6179CE891F5EFD6000F1B690 /* LaunchScreen.storyboard */,
 				6179CE8C1F5EFD6000F1B690 /* Info.plist */,
@@ -153,12 +159,14 @@
 			files = (
 				F339851B20F62D0B00E88B64 /* 11-07-2018 in Resources */,
 				F3E85E3A20F686E9009D62F6 /* Main.storyboard in Resources */,
+				F30875F120F697E2007A3D41 /* ship.scn in Resources */,
 				FC7243EA20F417500087D9C4 /* sphere.dae in Resources */,
 				6179CE8B1F5EFD6000F1B690 /* LaunchScreen.storyboard in Resources */,
 				F339851F20F6365300E88B64 /* Environment_Lat-Lon.png in Resources */,
 				F39836C520F553A100DC4CFC /* Drone_New.dae in Resources */,
 				F39836C720F555EA00DC4CFC /* Drone.dae in Resources */,
 				FC7243EC20F4175B0087D9C4 /* sphere.scn in Resources */,
+				F30875F020F697E2007A3D41 /* ship.png in Resources */,
 				6179CE881F5EFD6000F1B690 /* Assets.xcassets in Resources */,
 				F339851E20F6365300E88B64 /* 001_Drone.dae in Resources */,
 			);
@@ -301,6 +309,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				DEVELOPMENT_TEAM = VLH8W5K4X7;
 				INFOPLIST_FILE = ARKitExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = RG.ARKitExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -315,6 +324,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				DEVELOPMENT_TEAM = VLH8W5K4X7;
 				INFOPLIST_FILE = ARKitExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = RG.ARKitExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
