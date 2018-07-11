@@ -19,6 +19,7 @@
 		F39836C720F555EA00DC4CFC /* Drone.dae in Resources */ = {isa = PBXBuildFile; fileRef = F39836C620F555EA00DC4CFC /* Drone.dae */; };
 		F39836C920F5625A00DC4CFC /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39836C820F5625A00DC4CFC /* Grid.swift */; };
 		F3E85E3A20F686E9009D62F6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3E85E3920F686E9009D62F6 /* Main.storyboard */; };
+		FC0B1FA020F697D60095D3AA /* animation.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = FC0B1F9F20F697D00095D3AA /* animation.mp4 */; };
 		FC7243EA20F417500087D9C4 /* sphere.dae in Resources */ = {isa = PBXBuildFile; fileRef = FC7243E920F417500087D9C4 /* sphere.dae */; };
 		FC7243EC20F4175B0087D9C4 /* sphere.scn in Resources */ = {isa = PBXBuildFile; fileRef = FC7243EB20F4175B0087D9C4 /* sphere.scn */; };
 /* End PBXBuildFile section */
@@ -38,6 +39,7 @@
 		F39836C620F555EA00DC4CFC /* Drone.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = Drone.dae; sourceTree = "<group>"; };
 		F39836C820F5625A00DC4CFC /* Grid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 		F3E85E3920F686E9009D62F6 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		FC0B1F9F20F697D00095D3AA /* animation.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = animation.mp4; sourceTree = "<group>"; };
 		FC7243E920F417500087D9C4 /* sphere.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = sphere.dae; sourceTree = "<group>"; };
 		FC7243EB20F4175B0087D9C4 /* sphere.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = sphere.scn; sourceTree = "<group>"; };
 		FCA0E65D20F527BC00086AB1 /* 3d-model.scn */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "3d-model.scn"; sourceTree = "<group>"; };
@@ -75,6 +77,7 @@
 			children = (
 				6179CE801F5EFD6000F1B690 /* AppDelegate.swift */,
 				6179CE821F5EFD6000F1B690 /* ViewController.swift */,
+				FC0B1F9F20F697D00095D3AA /* animation.mp4 */,
 				F3E85E3920F686E9009D62F6 /* Main.storyboard */,
 				F339851A20F62D0A00E88B64 /* 11-07-2018 */,
 				616C11931F62D7150002A468 /* Drone.swift */,
@@ -154,6 +157,7 @@
 				F339851B20F62D0B00E88B64 /* 11-07-2018 in Resources */,
 				F3E85E3A20F686E9009D62F6 /* Main.storyboard in Resources */,
 				FC7243EA20F417500087D9C4 /* sphere.dae in Resources */,
+				FC0B1FA020F697D60095D3AA /* animation.mp4 in Resources */,
 				6179CE8B1F5EFD6000F1B690 /* LaunchScreen.storyboard in Resources */,
 				F339851F20F6365300E88B64 /* Environment_Lat-Lon.png in Resources */,
 				F39836C520F553A100DC4CFC /* Drone_New.dae in Resources */,
