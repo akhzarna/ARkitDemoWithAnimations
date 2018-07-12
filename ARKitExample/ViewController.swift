@@ -13,14 +13,15 @@ let kStartingPosition = SCNVector3(0.0, 0.0, -0.6)
 let kAnimationDurationMoving: TimeInterval = 0.2
 let kMovingLengthPerLoop: CGFloat = 0.05
 let kRotationRadianPerLoop: CGFloat = 0.2
-var toggleStateDroneOnOff = 1
-var toggleStatelightOnOff = 1
+var toggleStateDroneOnOff = 2
+var toggleStatelightOnOff = 2
 
 var xPos:CGFloat = 0.0
 var yPos:CGFloat = 0.0
 var zPos:CGFloat = 0.0
+var yy:CGFloat = 0.0
 
-class ViewController: UIViewController {
+class ViewController: UIViewController , ARSCNViewDelegate {
     
     @IBOutlet weak var viewTop: UIView!
     var player: AVPlayer?
@@ -43,8 +44,11 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var sceneView: ARSCNView!
     
-    var drone = Drone()
     var grids = [Grid]()
+    let drone = SCNNode()
+
+
+    var planeAnchor: ARPlaneAnchor?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,10 +97,10 @@ class ViewController: UIViewController {
             if isVideoFinish == false {
                 DispatchQueue.main.async {
                     self.view.didAddSubview(self.videoViewContainer)
-                    self.layer = AVPlayerLayer(player: self.player!)
+                   // self.layer = AVPlayerLayer(player: self.player!)
                     self.layer?.frame = self.view.frame
-                    self.layer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
-                    self.videoViewContainer.layer.addSublayer(self.layer!)
+            //        self.layer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
+              //      self.videoViewContainer.layer.addSublayer(self.layer!)
                 }
             }
             print("Device is landscape")
@@ -198,11 +202,13 @@ class ViewController: UIViewController {
 //
 //        }else{
             
-            drone.loadModel()
-            drone.position = SCNVector3(0.0, 0.0, -0.2)
-            drone.scale = SCNVector3(0.0007, 0.0007, 0.0007)
-            drone.rotation = SCNVector4Zero
-            sceneView.scene.rootNode.addChildNode(drone)
+//            drone.loadModel()
+//            drone.position = SCNVector3(0.0, 0.0, -0.2)
+//            drone.scale = SCNVector3(0.0007, 0.0007, 0.0007)
+//            drone.rotation = SCNVector4Zero
+//
+//            sceneView.scene.rootNode.addChildNode(drone)
+        
             
 //            guard let shipScene = SCNScene(named: "ship.scn"),
 //                let shipNode = shipScene.rootNode.childNode(withName: "ship", recursively: false)
@@ -211,12 +217,15 @@ class ViewController: UIViewController {
 //            shipNode.scale = SCNVector3(0.0008, 0.0008, 0.0008)
 //            shipNode.rotation = SCNVector4Zero
 //            sceneView.scene.rootNode.addChildNode(shipNode)
-            
+        
+            sceneView.scene.rootNode.addChildNode(self.drone)
+        self.drone.isPaused = true
+
             self.viewBottomLeft.isHidden = false
             self.viewBottomRight.isHidden = false
             self.viewBottomCenter.isHidden = false
-//            self.topHeaderView.isHidden = true
-//            self.questionView.isHidden = false
+            self.topHeaderView.isHidden = true
+            self.questionView.isHidden = false
        
 //        }
     }
@@ -226,12 +235,18 @@ class ViewController: UIViewController {
     // Added By Akhzar Nazir
     
     @IBAction func droneOnOffTapPressed(_ sender: UITapGestureRecognizer) {
+        
+        
+        
         if toggleStateDroneOnOff == 1 {
             toggleStateDroneOnOff = 2
             self.imgDroneOnOff.image = UIImage(named: "startdroneoff")
+            self.drone.isPaused = true
         } else {
             toggleStateDroneOnOff = 1
             self.imgDroneOnOff.image = UIImage(named: "startdroneon")
+            self.drone.isPaused = false
+
         }
     }
     
@@ -253,13 +268,21 @@ class ViewController: UIViewController {
     }
     
     @IBAction func downLongPressed(_ sender: UILongPressGestureRecognizer) {
-        let action = SCNAction.moveBy(x: 0, y: -kMovingLengthPerLoop, z: 0, duration: kAnimationDurationMoving)
+        
+        yy -= kMovingLengthPerLoop
+        
+//        if  {
+//            
+//        }
+        
+        let action = SCNAction.moveBy(x: 0, y: yy, z: 0, duration: kAnimationDurationMoving)
         execute(action: action, sender: sender)
     }
     
     @IBAction func moveLeftLongPressed(_ sender: UILongPressGestureRecognizer) {
         let x = -deltas().cos
         let z = deltas().sin
+        
         moveDrone(x: x, z: z, sender: sender)
     }
     
@@ -324,6 +347,45 @@ class ViewController: UIViewController {
         // Release any cached data, images, etc that aren't in use.
     }
     
+    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
+        
+        guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
+        
+        if self.planeAnchor == nil {
+            self.planeAnchor = planeAnchor
+            
+            // Clear out the debugging options once a plane has been detected
+            self.sceneView.debugOptions = []
+            
+            
+            self.loadDragonScene(with: planeAnchor)
+            let grid = Grid(anchor: anchor as! ARPlaneAnchor)
+            self.grids.append(grid)
+            node.addChildNode(grid)
+        }
+    }
+    
+    func loadDragonScene(with anchor: ARPlaneAnchor) {
+        
+        let dragonScene = SCNScene(named: "001_Drone.dae")!
+        let position = anchor.transform
+        
+        for childNode in dragonScene.rootNode.childNodes {
+            self.drone.addChildNode(childNode)
+        }
+        
+        let scale:Float = 0.002
+        self.drone.scale = SCNVector3(x: scale, y: scale, z: scale)
+        self.drone.position = SCNVector3(x: position.columns.3.x, y: position.columns.3.y, z: position.columns.3.z)
+        xPos = CGFloat(position.columns.3.x)
+        yPos = CGFloat(position.columns.3.y)
+        zPos = CGFloat(position.columns.3.z)
+        
+//        sceneView.scene.rootNode.addChildNode(self.drone)
+    }
+    
+    
+    
     // MARK: - ARSCNViewDelegate
     
     /*
@@ -349,23 +411,19 @@ class ViewController: UIViewController {
 //    }
 //    
 //    // 1.
-//    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-//        let grid = Grid(anchor: anchor as! ARPlaneAnchor)
-//        self.grids.append(grid)
-//        node.addChildNode(grid)
-//    }
-//    // 2.
-//    func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
-//        let grid = self.grids.filter { grid in
-//            return grid.anchor.identifier == anchor.identifier
-//            }.first
-//
-//        guard let foundGrid = grid else {
-//            return
-//        }
-//
-//        foundGrid.update(anchor: anchor as! ARPlaneAnchor)
-//    }
+ 
+    // 2.
+    func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
+        let grid = self.grids.filter { grid in
+            return grid.anchor.identifier == anchor.identifier
+            }.first
+
+        guard let foundGrid = grid else {
+            return
+        }
+
+        foundGrid.update(anchor: anchor as! ARPlaneAnchor)
+    }
     
     
     
@@ -390,60 +448,60 @@ class ViewController: UIViewController {
     
 }
 
-extension ViewController: ARSCNViewDelegate {
-    
-    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-        // 1
-        guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
-        
-        // 2
-        let width = CGFloat(planeAnchor.extent.x)
-        let height = CGFloat(planeAnchor.extent.z)
-        let plane = SCNPlane(width: width, height: height)
-        
-        // 3
-        plane.materials.first?.diffuse.contents = UIColor.transparentLightBlue
-        
-        // 4
-        let planeNode = SCNNode(geometry: plane)
-        
-        // 5
-        xPos = CGFloat(planeAnchor.center.x)
-        yPos = CGFloat(planeAnchor.center.y)
-        zPos = CGFloat(planeAnchor.center.z)
-        planeNode.position = SCNVector3(xPos,yPos,zPos)
-        planeNode.eulerAngles.x = -.pi / 2
-        
-        // 6
-        node.addChildNode(planeNode)
-        
-        // Added by Akhzar Nazir
-        drone.loadModel()
-        drone.position = planeNode.position
-        drone.scale = SCNVector3(0.0002, 0.0002, 0.0002)
-        drone.rotation = SCNVector4Zero
-        sceneView.scene.rootNode.addChildNode(drone)
-    }
-    
-    func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
-        // 1
-        guard let planeAnchor = anchor as?  ARPlaneAnchor,
-            let planeNode = node.childNodes.first,
-            let plane = planeNode.geometry as? SCNPlane
-            else { return }
-        // 2
-        let width = CGFloat(planeAnchor.extent.x)
-        let height = CGFloat(planeAnchor.extent.z)
-        plane.width = width
-        plane.height = height
-        // 3
-        let x = CGFloat(planeAnchor.center.x)
-        let y = CGFloat(planeAnchor.center.y)
-        let z = CGFloat(planeAnchor.center.z)
-        planeNode.position = SCNVector3(x, y, z)
-    }
-}
-
+//extension ViewController: ARSCNViewDelegate {
+//
+//    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
+//        // 1
+//        guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
+//
+//        // 2
+//        let width = CGFloat(planeAnchor.extent.x)
+//        let height = CGFloat(planeAnchor.extent.z)
+//        let plane = SCNPlane(width: width, height: height)
+//
+//        // 3
+//        plane.materials.first?.diffuse.contents = UIColor.transparentLightBlue
+//
+//        // 4
+//        let planeNode = SCNNode(geometry: plane)
+//
+//        // 5
+//        xPos = CGFloat(planeAnchor.center.x)
+//        yPos = CGFloat(planeAnchor.center.y)
+//        zPos = CGFloat(planeAnchor.center.z)
+//        planeNode.position = SCNVector3(xPos,yPos,zPos)
+//        planeNode.eulerAngles.x = -.pi / 2
+//
+//        // 6
+//        node.addChildNode(planeNode)
+//
+//        // Added by Akhzar Nazir
+//        drone.loadModel()
+//        drone.position = planeNode.position
+//        drone.scale = SCNVector3(0.0002, 0.0002, 0.0002)
+//        drone.rotation = SCNVector4Zero
+//        sceneView.scene.rootNode.addChildNode(drone)
+//    }
+//
+//    func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
+//        // 1
+//        guard let planeAnchor = anchor as?  ARPlaneAnchor,
+//            let planeNode = node.childNodes.first,
+//            let plane = planeNode.geometry as? SCNPlane
+//            else { return }
+//        // 2
+//        let width = CGFloat(planeAnchor.extent.x)
+//        let height = CGFloat(planeAnchor.extent.z)
+//        plane.width = width
+//        plane.height = height
+//        // 3
+//        let x = CGFloat(planeAnchor.center.x)
+//        let y = CGFloat(planeAnchor.center.y)
+//        let z = CGFloat(planeAnchor.center.z)
+//        planeNode.position = SCNVector3(x, y, z)
+//    }
+//}
+//
 extension float4x4 {
     var translation: float3 {
         let translation = self.columns.3

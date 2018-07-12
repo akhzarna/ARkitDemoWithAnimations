@@ -11,7 +11,7 @@ import ARKit
 class Drone: SCNNode {
     func loadModel() {
         
-        guard let virtualObjectScene = SCNScene(named: "001_Drone.dae") else { return }
+        guard let virtualObjectScene = SCNScene(named: "Drone.dae") else { return }
         let wrapperNode = SCNNode()
         for child in virtualObjectScene.rootNode.childNodes {
             wrapperNode.addChildNode(child)
