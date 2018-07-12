@@ -146,7 +146,7 @@ class ViewController: UIViewController {
         let shipNode = shipScene.rootNode.childNode(withName: "ship", recursively: false)
             else { return }
         shipNode.position = SCNVector3(x,y,z)
-        shipNode.scale = SCNVector3(0.08, 0.08, 0.08)
+        shipNode.scale = SCNVector3(0.002, 0.002, 0.002)
         shipNode.rotation = SCNVector4Zero
         sceneView.scene.rootNode.addChildNode(shipNode)
     }
@@ -199,8 +199,8 @@ class ViewController: UIViewController {
 //        }else{
             
             drone.loadModel()
-            drone.position = SCNVector3(0.0, 0.0, -0.2)
-            drone.scale = SCNVector3(0.0007, 0.0007, 0.0007)
+            drone.position = SCNVector3(xPos+0.0, yPos-16.0, zPos-100.0)
+            drone.scale = SCNVector3(0.85, 0.85, 0.85)
             drone.rotation = SCNVector4Zero
             sceneView.scene.rootNode.addChildNode(drone)
             
@@ -418,11 +418,11 @@ extension ViewController: ARSCNViewDelegate {
         node.addChildNode(planeNode)
         
         // Added by Akhzar Nazir
-        drone.loadModel()
-        drone.position = planeNode.position
-        drone.scale = SCNVector3(0.0002, 0.0002, 0.0002)
-        drone.rotation = SCNVector4Zero
-        sceneView.scene.rootNode.addChildNode(drone)
+//        drone.loadModel()
+//        drone.position = planeNode.position
+//        drone.scale = SCNVector3(0.02, 0.02, 0.02)
+//        drone.rotation = SCNVector4Zero
+//        sceneView.scene.rootNode.addChildNode(drone)
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
