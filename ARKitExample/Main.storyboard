@@ -35,7 +35,7 @@
                                         </constraints>
                                         <state key="normal" image="AstroIcon"/>
                                         <connections>
-                                            <action selector="droneLoadAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oYI-a8-n5K"/>
+                                            <action selector="loadDroneAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HNv-T4-V2N"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ieA-3p-eTy">
@@ -235,20 +235,20 @@
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="mbx-LS-JJS" firstAttribute="bottom" secondItem="RNE-qf-e5R" secondAttribute="bottom" id="10m-sd-Ai4"/>
-                            <constraint firstItem="cJN-SC-bG9" firstAttribute="top" secondItem="AcT-Ke-uxH" secondAttribute="bottom" id="5l7-HL-4go"/>
-                            <constraint firstItem="cJN-SC-bG9" firstAttribute="top" secondItem="HeN-yf-Kg3" secondAttribute="bottom" id="6eX-Ft-lAc"/>
-                            <constraint firstItem="RNE-qf-e5R" firstAttribute="top" secondItem="Lb7-CF-rGi" secondAttribute="bottom" id="AQb-7C-NXX"/>
+                            <constraint firstItem="cJN-SC-bG9" firstAttribute="top" secondItem="HeN-yf-Kg3" secondAttribute="bottom" id="5pl-UY-NhL"/>
                             <constraint firstAttribute="trailing" secondItem="RNE-qf-e5R" secondAttribute="trailing" id="F9T-Pg-l8z"/>
                             <constraint firstItem="mbx-LS-JJS" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Ffl-1N-V2z"/>
-                            <constraint firstItem="cJN-SC-bG9" firstAttribute="top" secondItem="QBB-qo-KCt" secondAttribute="bottom" id="JkQ-dG-IyQ"/>
+                            <constraint firstItem="RNE-qf-e5R" firstAttribute="top" secondItem="Lb7-CF-rGi" secondAttribute="bottom" id="K3R-NE-RlX"/>
                             <constraint firstItem="AcT-Ke-uxH" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="-20" id="N6f-04-z8p"/>
-                            <constraint firstItem="QBB-qo-KCt" firstAttribute="top" secondItem="Lb7-CF-rGi" secondAttribute="bottom" constant="-20" id="Zwc-eo-dch"/>
+                            <constraint firstItem="cJN-SC-bG9" firstAttribute="top" secondItem="Huz-8V-WtG" secondAttribute="bottom" id="bai-GD-aJt"/>
                             <constraint firstItem="RNE-qf-e5R" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="cfd-JN-nf0"/>
+                            <constraint firstItem="cJN-SC-bG9" firstAttribute="top" secondItem="QBB-qo-KCt" secondAttribute="bottom" id="dPi-7T-tHy"/>
                             <constraint firstItem="HeN-yf-Kg3" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="dsT-ah-oEe"/>
                             <constraint firstItem="QBB-qo-KCt" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="iPb-SM-a5b"/>
-                            <constraint firstItem="cJN-SC-bG9" firstAttribute="top" secondItem="Huz-8V-WtG" secondAttribute="bottom" id="mfa-4h-uEC"/>
                             <constraint firstAttribute="trailing" secondItem="mbx-LS-JJS" secondAttribute="trailing" id="nhy-jW-oWV"/>
+                            <constraint firstItem="cJN-SC-bG9" firstAttribute="top" secondItem="AcT-Ke-uxH" secondAttribute="bottom" id="tH7-XL-hUb"/>
                             <constraint firstItem="mbx-LS-JJS" firstAttribute="top" secondItem="RNE-qf-e5R" secondAttribute="top" id="tU5-UI-aL7"/>
+                            <constraint firstItem="QBB-qo-KCt" firstAttribute="top" secondItem="Lb7-CF-rGi" secondAttribute="bottom" constant="-20" id="vfX-JW-4qN"/>
                             <constraint firstAttribute="trailing" secondItem="Huz-8V-WtG" secondAttribute="trailing" constant="-20" id="ztR-qr-qMN"/>
                             <constraint firstAttribute="trailing" secondItem="QBB-qo-KCt" secondAttribute="trailing" id="zw1-PI-NZv"/>
                         </constraints>
@@ -274,11 +274,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </view>
-                <tapGestureRecognizer id="Eob-tB-M67">
-                    <connections>
-                        <action selector="astroToLoadDroneTapPressed:" destination="BYZ-38-t0r" id="e5m-We-ajI"/>
-                    </connections>
-                </tapGestureRecognizer>
+                <tapGestureRecognizer id="Eob-tB-M67"/>
                 <tapGestureRecognizer id="5Rc-83-HYN">
                     <connections>
                         <action selector="droneOnOffTapPressed:" destination="BYZ-38-t0r" id="TXd-Ls-aLY"/>

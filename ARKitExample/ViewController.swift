@@ -26,8 +26,7 @@ class ViewController: UIViewController {
     var player: AVPlayer?
     var isVideoFinish : Bool = false
     
-    
-  var layer:  AVPlayerLayer?
+    var layer:  AVPlayerLayer?
     @IBOutlet weak var videoViewContainer: UIView!
     @IBOutlet weak var questionView: UIView!
     
@@ -53,58 +52,44 @@ class ViewController: UIViewController {
         addTapGestureToSceneView()
         configureLighting()
         self.questionView.isHidden = true
-        
         btn1.layer.cornerRadius = btn1.frame.width / 2
         btn1.clipsToBounds = true
         btn2.layer.cornerRadius = btn1.frame.width / 2
         btn2.clipsToBounds = true
-        
         btn3.layer.cornerRadius = btn1.frame.width / 2
         btn3.clipsToBounds = true
-        self.view.addSubview(self.videoViewContainer)
-        initializeVideoPlayerWithVideo()
+//        self.view.addSubview(self.videoViewContainer)
+//        initializeVideoPlayerWithVideo()
     }
     
-    
     func initializeVideoPlayerWithVideo() {
-        
         // get the path string for the video from assets
         let videoString:String? = Bundle.main.path(forResource: "animation", ofType: "mp4")
         guard let unwrappedVideoPath = videoString else {return}
-        
         // convert the path string to a url
         let videoUrl = URL(fileURLWithPath: unwrappedVideoPath)
-        
         // initialize the video player with the url
         self.player = AVPlayer(url: videoUrl)
-        
         NotificationCenter.default.addObserver(self, selector:#selector(self.playerDidFinishPlaying(note:)),name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: player?.currentItem)
-        
         // create a video layer for the player
         let layer: AVPlayerLayer = AVPlayerLayer(player: player)
-        
         // make the layer the same size as the container view
         layer.frame = videoViewContainer.bounds
-        
         // make the video fill the layer as much as possible while keeping its aspect size
         layer.videoGravity = AVLayerVideoGravity.resizeAspect
-        
         // add the layer to the container view
         videoViewContainer.layer.addSublayer(layer)
         player?.play()
-
     }
+    
     @objc func playerDidFinishPlaying(note: NSNotification){
         print("Video Finished")
         self.isVideoFinish = true
         self.videoViewContainer.isHidden = true
-        
     }
     
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
-        
         if (UIDevice.current.orientation.isLandscape) {
-            
             if isVideoFinish == false {
                 DispatchQueue.main.async {
                     self.view.didAddSubview(self.videoViewContainer)
@@ -114,7 +99,6 @@ class ViewController: UIViewController {
                     self.videoViewContainer.layer.addSublayer(self.layer!)
                 }
             }
-        
             print("Device is landscape")
         }else{
             print("Device is portrait")
@@ -162,7 +146,7 @@ class ViewController: UIViewController {
         let shipNode = shipScene.rootNode.childNode(withName: "ship", recursively: false)
             else { return }
         shipNode.position = SCNVector3(x,y,z)
-        shipNode.scale = SCNVector3(0.0008, 0.0008, 0.0008)
+        shipNode.scale = SCNVector3(0.08, 0.08, 0.08)
         shipNode.rotation = SCNVector4Zero
         sceneView.scene.rootNode.addChildNode(shipNode)
     }
@@ -193,24 +177,30 @@ class ViewController: UIViewController {
         sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
     }
     
+    @IBAction func loadDroneAction(_ sender: Any) {
+        addDrone()
+    }
+    
     func addDrone() {
-        if xPos == 0.0 && yPos == 0.0 && zPos == 0.0 {
-            let alert = UIAlertController(title: "Attention", message: "No Plan Detected to place the object", preferredStyle: UIAlertControllerStyle.alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
-                switch action.style{
-                case .default:
-                    print("default")
-                case .cancel:
-                    print("cancel")
-                case .destructive:
-                    print("destructive")
-                }}))
-            self.present(alert, animated: true, completion: nil)
+       
+//        if xPos == 0.0 && yPos == 0.0 && zPos == 0.0 {
+//            let alert = UIAlertController(title: "Attention", message: "No Plan Detected to place the object", preferredStyle: UIAlertControllerStyle.alert)
+//            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+//                switch action.style{
+//                case .default:
+//                    print("default")
+//                case .cancel:
+//                    print("cancel")
+//                case .destructive:
+//                    print("destructive")
+//                }}))
+//            self.present(alert, animated: true, completion: nil)
+//
+//        }else{
             
-        }else{
             drone.loadModel()
-            drone.position = kStartingPosition
-            drone.scale = SCNVector3(0.002, 0.002, 0.002)
+            drone.position = SCNVector3(0.0, 0.0, -0.2)
+            drone.scale = SCNVector3(0.0007, 0.0007, 0.0007)
             drone.rotation = SCNVector4Zero
             sceneView.scene.rootNode.addChildNode(drone)
             
@@ -225,19 +215,15 @@ class ViewController: UIViewController {
             self.viewBottomLeft.isHidden = false
             self.viewBottomRight.isHidden = false
             self.viewBottomCenter.isHidden = false
-            self.topHeaderView.isHidden = true
-            self.questionView.isHidden = false
-        }
+//            self.topHeaderView.isHidden = true
+//            self.questionView.isHidden = false
+       
+//        }
     }
     
     // MARK: - actions
 
     // Added By Akhzar Nazir
-    
-    @IBAction func droneLoadAction(_ sender: Any) {
-        addDrone()
-        
-    }
     
     @IBAction func droneOnOffTapPressed(_ sender: UITapGestureRecognizer) {
         if toggleStateDroneOnOff == 1 {
@@ -350,7 +336,6 @@ class ViewController: UIViewController {
      */
     
     
-    
 //    func session(_ session: ARSession, didFailWithError error: Error) {
 //        // Present an error message to the user
 //    }
@@ -405,8 +390,8 @@ class ViewController: UIViewController {
     
 }
 
-
 extension ViewController: ARSCNViewDelegate {
+    
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         // 1
         guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
@@ -433,11 +418,11 @@ extension ViewController: ARSCNViewDelegate {
         node.addChildNode(planeNode)
         
         // Added by Akhzar Nazir
-//        drone.loadModel()
-//        drone.position = SCNVector3(xPos,yPos,zPos)
-//        drone.scale = SCNVector3(0.002, 0.002, 0.002)
-//        drone.rotation = SCNVector4Zero
-//        sceneView.scene.rootNode.addChildNode(drone)
+        drone.loadModel()
+        drone.position = planeNode.position
+        drone.scale = SCNVector3(0.0002, 0.0002, 0.0002)
+        drone.rotation = SCNVector4Zero
+        sceneView.scene.rootNode.addChildNode(drone)
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
@@ -446,13 +431,11 @@ extension ViewController: ARSCNViewDelegate {
             let planeNode = node.childNodes.first,
             let plane = planeNode.geometry as? SCNPlane
             else { return }
-        
         // 2
         let width = CGFloat(planeAnchor.extent.x)
         let height = CGFloat(planeAnchor.extent.z)
         plane.width = width
         plane.height = height
-        
         // 3
         let x = CGFloat(planeAnchor.center.x)
         let y = CGFloat(planeAnchor.center.y)

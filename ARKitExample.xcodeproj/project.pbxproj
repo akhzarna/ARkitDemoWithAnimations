@@ -79,14 +79,12 @@
 		6179CE7F1F5EFD6000F1B690 /* ARKitExample */ = {
 			isa = PBXGroup;
 			children = (
-				6179CE801F5EFD6000F1B690 /* AppDelegate.swift */,
 				6179CE821F5EFD6000F1B690 /* ViewController.swift */,
-				FC0B1F9F20F697D00095D3AA /* animation.mp4 */,
+				6179CE801F5EFD6000F1B690 /* AppDelegate.swift */,
 				F3E85E3920F686E9009D62F6 /* Main.storyboard */,
-				F339851A20F62D0A00E88B64 /* 11-07-2018 */,
+				FC0B1F9F20F697D00095D3AA /* animation.mp4 */,
 				616C11931F62D7150002A468 /* Drone.swift */,
 				F39836C820F5625A00DC4CFC /* Grid.swift */,
-				F3E85E3920F686E9009D62F6 /* Main.storyboard */,
 				F339851A20F62D0A00E88B64 /* 11-07-2018 */,
 				F339851C20F6365300E88B64 /* 001_Drone.dae */,
 				F339851D20F6365300E88B64 /* Environment_Lat-Lon.png */,
