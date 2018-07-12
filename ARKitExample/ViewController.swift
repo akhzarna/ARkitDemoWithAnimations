@@ -7,8 +7,9 @@
 //
 
 import ARKit
+import AVFoundation
 
-let kStartingPosition = SCNVector3(0, 0, -0.6)
+let kStartingPosition = SCNVector3(0.0, 0.0, -0.6)
 let kAnimationDurationMoving: TimeInterval = 0.2
 let kMovingLengthPerLoop: CGFloat = 0.05
 let kRotationRadianPerLoop: CGFloat = 0.2
@@ -22,6 +23,18 @@ var zPos:CGFloat = 0.0
 class ViewController: UIViewController {
     
     @IBOutlet weak var viewTop: UIView!
+    var player: AVPlayer?
+    var isVideoFinish : Bool = false
+    
+    
+  var layer:  AVPlayerLayer?
+    @IBOutlet weak var videoViewContainer: UIView!
+    @IBOutlet weak var questionView: UIView!
+    
+    @IBOutlet weak var topHeaderView: UIView!
+    @IBOutlet weak var btn3: UIButton!
+    @IBOutlet weak var btn2: UIButton!
+    @IBOutlet weak var btn1: UIButton!
     @IBOutlet weak var viewBottomLeft: UIView!
     @IBOutlet weak var viewBottomRight: UIView!
     @IBOutlet weak var viewBottomCenter: UIView!
@@ -39,8 +52,78 @@ class ViewController: UIViewController {
 //        setupScene()
         addTapGestureToSceneView()
         configureLighting()
+        self.questionView.isHidden = true
+        
+        btn1.layer.cornerRadius = btn1.frame.width / 2
+        btn1.clipsToBounds = true
+        btn2.layer.cornerRadius = btn1.frame.width / 2
+        btn2.clipsToBounds = true
+        
+        btn3.layer.cornerRadius = btn1.frame.width / 2
+        btn3.clipsToBounds = true
+        self.view.addSubview(self.videoViewContainer)
+        initializeVideoPlayerWithVideo()
     }
     
+    
+    func initializeVideoPlayerWithVideo() {
+        
+        // get the path string for the video from assets
+        let videoString:String? = Bundle.main.path(forResource: "animation", ofType: "mp4")
+        guard let unwrappedVideoPath = videoString else {return}
+        
+        // convert the path string to a url
+        let videoUrl = URL(fileURLWithPath: unwrappedVideoPath)
+        
+        // initialize the video player with the url
+        self.player = AVPlayer(url: videoUrl)
+        
+        NotificationCenter.default.addObserver(self, selector:#selector(self.playerDidFinishPlaying(note:)),name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: player?.currentItem)
+        
+        // create a video layer for the player
+        let layer: AVPlayerLayer = AVPlayerLayer(player: player)
+        
+        // make the layer the same size as the container view
+        layer.frame = videoViewContainer.bounds
+        
+        // make the video fill the layer as much as possible while keeping its aspect size
+        layer.videoGravity = AVLayerVideoGravity.resizeAspect
+        
+        // add the layer to the container view
+        videoViewContainer.layer.addSublayer(layer)
+        player?.play()
+
+    }
+    @objc func playerDidFinishPlaying(note: NSNotification){
+        print("Video Finished")
+        self.isVideoFinish = true
+        self.videoViewContainer.isHidden = true
+        
+    }
+    
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        
+        if (UIDevice.current.orientation.isLandscape) {
+            
+            if isVideoFinish == false {
+                DispatchQueue.main.async {
+                    self.view.didAddSubview(self.videoViewContainer)
+                    self.layer = AVPlayerLayer(player: self.player!)
+                    self.layer?.frame = self.view.frame
+                    self.layer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
+                    self.videoViewContainer.layer.addSublayer(self.layer!)
+                }
+            }
+        
+            print("Device is landscape")
+        }else{
+            print("Device is portrait")
+           // movie.view.frame = videoContainerView.bounds
+           // controllsContainerView.frame = videoContainerView.bounds
+            self.layer?.removeFromSuperlayer()
+        }
+    }
+        
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 //        setupConfiguration()
@@ -48,9 +131,22 @@ class ViewController: UIViewController {
     }
     
     func configureLighting() {
-        sceneView.autoenablesDefaultLighting = true
-        sceneView.automaticallyUpdatesLighting = true
+        sceneView.autoenablesDefaultLighting = false
+        sceneView.automaticallyUpdatesLighting = false
     }
+    
+//    func addDrone() {
+//        drone.loadModel()
+//        drone.position = kStartingPosition
+//        drone.scale = SCNVector3(0.002, 0.002, 0.002)
+//        drone.rotation = SCNVector4Zero
+//        sceneView.scene.rootNode.addChildNode(drone)
+//        self.viewBottomLeft.isHidden = false
+//        self.viewBottomRight.isHidden = false
+//        self.viewBottomCenter.isHidden = false
+//        self.topHeaderView.isHidden = true
+//        self.questionView.isHidden = false 
+//    }
     
     @objc func addShipToSceneView(withGestureRecognizer recognizer: UIGestureRecognizer) {
         let tapLocation = recognizer.location(in: sceneView)
@@ -112,24 +208,25 @@ class ViewController: UIViewController {
             self.present(alert, animated: true, completion: nil)
             
         }else{
-//            drone.loadModel()
-//            drone.position = SCNVector3(xPos,yPos,zPos)
-//            drone.scale = SCNVector3(0.002, 0.002, 0.002)
-//            drone.rotation = SCNVector4Zero
-//            sceneView.scene.rootNode.addChildNode(drone)
+            drone.loadModel()
+            drone.position = kStartingPosition
+            drone.scale = SCNVector3(0.002, 0.002, 0.002)
+            drone.rotation = SCNVector4Zero
+            sceneView.scene.rootNode.addChildNode(drone)
             
-            guard let shipScene = SCNScene(named: "ship.scn"),
-                let shipNode = shipScene.rootNode.childNode(withName: "ship", recursively: false)
-                else { return }
-            shipNode.position = SCNVector3(xPos,yPos,zPos)
-            shipNode.scale = SCNVector3(0.0008, 0.0008, 0.0008)
-            shipNode.rotation = SCNVector4Zero
-            sceneView.scene.rootNode.addChildNode(shipNode)
+//            guard let shipScene = SCNScene(named: "ship.scn"),
+//                let shipNode = shipScene.rootNode.childNode(withName: "ship", recursively: false)
+//                else { return }
+//            shipNode.position = SCNVector3(xPos,yPos,zPos)
+//            shipNode.scale = SCNVector3(0.0008, 0.0008, 0.0008)
+//            shipNode.rotation = SCNVector4Zero
+//            sceneView.scene.rootNode.addChildNode(shipNode)
             
-//            self.viewTop.isHidden = true
             self.viewBottomLeft.isHidden = false
             self.viewBottomRight.isHidden = false
             self.viewBottomCenter.isHidden = false
+            self.topHeaderView.isHidden = true
+            self.questionView.isHidden = false
         }
     }
     
@@ -139,25 +236,26 @@ class ViewController: UIViewController {
     
     @IBAction func droneLoadAction(_ sender: Any) {
         addDrone()
+        
     }
     
     @IBAction func droneOnOffTapPressed(_ sender: UITapGestureRecognizer) {
         if toggleStateDroneOnOff == 1 {
             toggleStateDroneOnOff = 2
-            self.imgDroneOnOff.image = UIImage(named: "startdroneon")
+            self.imgDroneOnOff.image = UIImage(named: "startdroneoff")
         } else {
             toggleStateDroneOnOff = 1
-            self.imgDroneOnOff.image = UIImage(named: "startdroneoff")
+            self.imgDroneOnOff.image = UIImage(named: "startdroneon")
         }
     }
     
     @IBAction func lightsOnOffTapPressed(_ sender: UITapGestureRecognizer) {
         if toggleStatelightOnOff == 1 {
             toggleStatelightOnOff = 2
-            self.imgLightsOnOff.image = UIImage(named: "lightson")
+            self.imgLightsOnOff.image = UIImage(named: "lightsoff")
         } else {
             toggleStatelightOnOff = 1
-            self.imgLightsOnOff.image = UIImage(named: "lightsoff")
+            self.imgLightsOnOff.image = UIImage(named: "lightson")
         }
     }
     
