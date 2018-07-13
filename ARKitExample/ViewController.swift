@@ -175,7 +175,8 @@ class ViewController: UIViewController , ARSCNViewDelegate {
     
     func setUpSceneView() {
         let configuration = ARWorldTrackingConfiguration()
-        configuration.planeDetection = .horizontal
+        configuration.planeDetection = [.horizontal,.vertical]
+        configuration.isLightEstimationEnabled = true
         sceneView.session.run(configuration)
         sceneView.delegate = self
         sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
@@ -219,8 +220,7 @@ class ViewController: UIViewController , ARSCNViewDelegate {
 //            sceneView.scene.rootNode.addChildNode(shipNode)
         
             sceneView.scene.rootNode.addChildNode(self.drone)
-        self.drone.isPaused = true
-
+            self.drone.isPaused = true
             self.viewBottomLeft.isHidden = false
             self.viewBottomRight.isHidden = false
             self.viewBottomCenter.isHidden = false
@@ -254,8 +254,22 @@ class ViewController: UIViewController , ARSCNViewDelegate {
         if toggleStatelightOnOff == 1 {
             toggleStatelightOnOff = 2
             self.imgLightsOnOff.image = UIImage(named: "lightsoff")
+            sceneView.autoenablesDefaultLighting = false
+            sceneView.automaticallyUpdatesLighting = false
+            
+
+            
         } else {
             toggleStatelightOnOff = 1
+            
+            let omniLight = SCNLight()
+            omniLight.type = SCNLight.LightType.omni
+            let omniLightNode = SCNNode()
+            omniLightNode.light = omniLight
+            omniLightNode.position = SCNVector3Make(10, 10, 10)
+            sceneView.scene.rootNode.addChildNode(omniLightNode)
+            
+            
             self.imgLightsOnOff.image = UIImage(named: "lightson")
         }
     }
@@ -272,7 +286,7 @@ class ViewController: UIViewController , ARSCNViewDelegate {
         yy -= kMovingLengthPerLoop
         
 //        if  {
-//            
+//
 //        }
         
         let action = SCNAction.moveBy(x: 0, y: yy, z: 0, duration: kAnimationDurationMoving)
@@ -374,7 +388,7 @@ class ViewController: UIViewController , ARSCNViewDelegate {
             self.drone.addChildNode(childNode)
         }
         
-        let scale:Float = 0.002
+        let scale:Float = 0.08
         self.drone.scale = SCNVector3(x: scale, y: scale, z: scale)
         self.drone.position = SCNVector3(x: position.columns.3.x, y: position.columns.3.y, z: position.columns.3.z)
         xPos = CGFloat(position.columns.3.x)
