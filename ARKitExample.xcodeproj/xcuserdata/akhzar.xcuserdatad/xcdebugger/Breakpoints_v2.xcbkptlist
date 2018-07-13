@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ARKitExample/ViewController.swift"
-            timestampString = "553133173.388647"
+            timestampString = "553136488.808417"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "233"
-            endingLineNumber = "233"
-            landmarkName = "moveBackLongPressed(_:)"
+            startingLineNumber = "184"
+            endingLineNumber = "184"
+            landmarkName = "lightsOnOffTapPressed(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

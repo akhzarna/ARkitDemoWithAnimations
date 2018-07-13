@@ -61,8 +61,8 @@ class ViewController: UIViewController , ARSCNViewDelegate {
         btn2.clipsToBounds = true
         btn3.layer.cornerRadius = btn1.frame.width / 2
         btn3.clipsToBounds = true
-//        self.view.addSubview(self.videoViewContainer)
-//        initializeVideoPlayerWithVideo()
+        self.view.addSubview(self.videoViewContainer)
+        initializeVideoPlayerWithVideo()
     }
     
     func initializeVideoPlayerWithVideo() {
@@ -96,10 +96,10 @@ class ViewController: UIViewController , ARSCNViewDelegate {
             if isVideoFinish == false {
                 DispatchQueue.main.async {
                     self.view.didAddSubview(self.videoViewContainer)
-                   // self.layer = AVPlayerLayer(player: self.player!)
+                    self.layer = AVPlayerLayer(player: self.player!)
                     self.layer?.frame = self.view.frame
-            //        self.layer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
-              //      self.videoViewContainer.layer.addSublayer(self.layer!)
+                    self.layer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
+                    self.videoViewContainer.layer.addSublayer(self.layer!)
                 }
             }
             print("Device is landscape")
@@ -137,7 +137,8 @@ class ViewController: UIViewController , ARSCNViewDelegate {
     
     func setUpSceneView() {
         let configuration = ARWorldTrackingConfiguration()
-        configuration.planeDetection = .horizontal
+        configuration.planeDetection = [.horizontal,.vertical]
+        configuration.isLightEstimationEnabled = true
         sceneView.session.run(configuration)
         sceneView.delegate = self
         sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
@@ -148,13 +149,13 @@ class ViewController: UIViewController , ARSCNViewDelegate {
     }
     
     func addDrone() {
-        sceneView.scene.rootNode.addChildNode(self.drone)
-        self.drone.isPaused = true
-        self.viewBottomLeft.isHidden = false
-        self.viewBottomRight.isHidden = false
-        self.viewBottomCenter.isHidden = false
-        self.topHeaderView.isHidden = true
-        self.questionView.isHidden = false
+            sceneView.scene.rootNode.addChildNode(self.drone)
+            self.drone.isPaused = true
+            self.viewBottomLeft.isHidden = false
+            self.viewBottomRight.isHidden = false
+            self.viewBottomCenter.isHidden = false
+            self.topHeaderView.isHidden = true
+            self.questionView.isHidden = false
     }
     
     // MARK: - actions
@@ -177,34 +178,38 @@ class ViewController: UIViewController , ARSCNViewDelegate {
         if toggleStatelightOnOff == 1 {
             toggleStatelightOnOff = 2
             self.imgLightsOnOff.image = UIImage(named: "lightsoff")
+//            sceneView.autoenablesDefaultLighting = false
+//            sceneView.automaticallyUpdatesLighting = false
         } else {
             toggleStatelightOnOff = 1
             self.imgLightsOnOff.image = UIImage(named: "lightson")
+//            let omniLight = SCNLight()
+//            omniLight.type = SCNLight.LightType.omni
+//            let omniLightNode = SCNNode()
+//            omniLightNode.light = omniLight
+//            omniLightNode.position = SCNVector3Make(10, 10, 10)
+//            sceneView.scene.rootNode.addChildNode(omniLightNode)
         }
     }
     
     // End
     
     @IBAction func upLongPressed(_ sender: UILongPressGestureRecognizer) {
-//        let action = SCNAction.moveBy(x: 0, y: kMovingLengthPerLoop, z: 0, duration: kAnimationDurationMoving)
-//        execute(action: action, sender: sender)
-        
-        // Added by Akhzar Nazir
-        let y = deltas().cos
-        let z = -deltas().sin
-        
-        moveDroneUpDown(y: y, z: z, sender: sender)
+        let action = SCNAction.moveBy(x: 0, y: kMovingLengthPerLoop, z: 0, duration: kAnimationDurationMoving)
+        execute(action: action, sender: sender)
+//        // Added by Akhzar Nazir
+//        let y = deltas().cos
+//        let z = -deltas().sin
+//        moveDroneUpDown(y: y, z: z, sender: sender)
     }
     
     @IBAction func downLongPressed(_ sender: UILongPressGestureRecognizer) {
-//        let action = SCNAction.moveBy(x: 0, y: -kMovingLengthPerLoop, z: 0, duration: kAnimationDurationMoving)
-//        execute(action: action, sender: sender)
+        let action = SCNAction.moveBy(x: 0, y: -kMovingLengthPerLoop, z: 0, duration: kAnimationDurationMoving)
+        execute(action: action, sender: sender)
         // Added by Akhzar Nazir
-        let y = -deltas().cos
-        let z = deltas().sin
-//        if y>=yPos {
-            moveDroneUpDown(y: y, z: z, sender: sender)
-//        }
+//        let y = -deltas().cos
+//        let z = deltas().sin
+//        moveDroneUpDown(y: y, z: z, sender: sender)
     }
     
     @IBAction func moveLeftLongPressed(_ sender: UILongPressGestureRecognizer) {
@@ -288,7 +293,6 @@ class ViewController: UIViewController , ARSCNViewDelegate {
             
             // Clear out the debugging options once a plane has been detected
             self.sceneView.debugOptions = []
-            
             
             self.loadDragonScene(with: planeAnchor)
             let grid = Grid(anchor: anchor as! ARPlaneAnchor)
