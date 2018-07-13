@@ -38,7 +38,7 @@
                                             <action selector="loadDroneAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HNv-T4-V2N"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ieA-3p-eTy">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ieA-3p-eTy">
                                         <rect key="frame" x="100" y="5" width="80" height="80"/>
                                         <color key="backgroundColor" red="0.61568627450980395" green="0.74117647058823533" blue="0.81960784313725488" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -46,7 +46,7 @@
                                             <constraint firstAttribute="height" constant="80" id="Ifm-ko-a4X"/>
                                         </constraints>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mOR-kj-eDe">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mOR-kj-eDe">
                                         <rect key="frame" x="190" y="5" width="80" height="80"/>
                                         <color key="backgroundColor" red="0.61568627450980395" green="0.74117647058823533" blue="0.81960784313725488" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
@@ -54,7 +54,7 @@
                                             <constraint firstAttribute="height" constant="80" id="qBf-4e-pAO"/>
                                         </constraints>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CsM-aR-QDV">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CsM-aR-QDV">
                                         <rect key="frame" x="280" y="5" width="80" height="80"/>
                                         <color key="backgroundColor" red="0.61568627450000002" green="0.74117647060000003" blue="0.81960784310000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
