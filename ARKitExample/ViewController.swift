@@ -16,10 +16,6 @@ let kRotationRadianPerLoop: CGFloat = 0.2
 var toggleStateDroneOnOff = 2
 var toggleStatelightOnOff = 2
 
-//var xPos:CGFloat = 0.0
-//var yPos:CGFloat = 0.0
-//var zPos:CGFloat = 0.0
-
 class ViewController: UIViewController , ARSCNViewDelegate {
     
     @IBOutlet weak var viewTop: UIView!
@@ -73,8 +69,8 @@ class ViewController: UIViewController , ARSCNViewDelegate {
         btn2.clipsToBounds = true
         btn3.layer.cornerRadius = btn1.frame.width / 2
         btn3.clipsToBounds = true
-//        self.view.addSubview(self.videoViewContainer)
-//        initializeVideoPlayerWithVideo()
+        self.view.addSubview(self.videoViewContainer)
+        initializeVideoPlayerWithVideo()
     }
     
     func initializeVideoPlayerWithVideo() {
@@ -131,11 +127,11 @@ class ViewController: UIViewController , ARSCNViewDelegate {
             self.lightXposition.constant = 5
             if isVideoFinish == false {
                 DispatchQueue.main.async {
-//                    self.view.didAddSubview(self.videoViewContainer)
-//                    self.layer = AVPlayerLayer(player: self.player!)
-//                    self.layer?.frame = self.view.frame
-//                    self.layer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
-//                    self.videoViewContainer.layer.addSublayer(self.layer!)
+                    self.view.didAddSubview(self.videoViewContainer)
+                    self.layer = AVPlayerLayer(player: self.player!)
+                    self.layer?.frame = self.view.frame
+                    self.layer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
+                    self.videoViewContainer.layer.addSublayer(self.layer!)
                 }
             }
             print("Device is landscape")
