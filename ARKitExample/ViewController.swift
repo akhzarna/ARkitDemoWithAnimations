@@ -27,6 +27,7 @@ class ViewController: UIViewController , ARSCNViewDelegate {
     var player: AVPlayer?
     var isVideoFinish : Bool = false
     
+    @IBOutlet weak var dronOffView: UIView!
     var layer:  AVPlayerLayer?
     @IBOutlet weak var videoViewContainer: UIView!
     @IBOutlet weak var questionView: UIView!
@@ -42,13 +43,24 @@ class ViewController: UIViewController , ARSCNViewDelegate {
     @IBOutlet weak var imgLightsOnOff: UIImageView!
     @IBOutlet weak var imgDroneOnOff: UIImageView!
     
+    @IBOutlet weak var lightXposition: NSLayoutConstraint!
+    @IBOutlet weak var raceXPosition: NSLayoutConstraint!
     @IBOutlet weak var sceneView: ARSCNView!
     
+    @IBOutlet weak var imageRace: UIImageView!
     var grids = [Grid]()
     let drone = SCNNode()
 
-
+    @IBOutlet weak var droneOffXPosition: NSLayoutConstraint!
+    
+    @IBOutlet weak var dronYPosition: NSLayoutConstraint!
+    
+    
     var planeAnchor: ARPlaneAnchor?
+    /// Convenience accessor for the session owned by ARSCNView.
+    var session: ARSession {
+        return sceneView.session
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,8 +104,32 @@ class ViewController: UIViewController , ARSCNViewDelegate {
         self.videoViewContainer.isHidden = true
     }
     
+    @IBAction func restartActionScan(_ sender: Any) {
+        
+        
+//        self.grids.removeAll()
+//        let configuration = ARWorldTrackingConfiguration()
+//
+//        sceneView.session.pause()
+//        sceneView.scene.rootNode.enumerateChildNodes { (node, stop) in
+//            node.removeFromParentNode()
+//        }
+//        
+//        sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
+//
+//        setUpSceneView()
+
+        
+    }
+    
+    
+    
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         if (UIDevice.current.orientation.isLandscape) {
+            self.droneOffXPosition.constant = 60
+            self.dronYPosition.constant = 50
+            self.raceXPosition.constant = 120
+            self.lightXposition.constant = 5
             if isVideoFinish == false {
                 DispatchQueue.main.async {
                     self.view.didAddSubview(self.videoViewContainer)
@@ -105,6 +141,12 @@ class ViewController: UIViewController , ARSCNViewDelegate {
             }
             print("Device is landscape")
         }else{
+            self.droneOffXPosition.constant = 90
+            self.raceXPosition.constant = 10
+            self.lightXposition.constant = 5
+            self.dronYPosition.constant = 10
+
+            
             print("Device is portrait")
            // movie.view.frame = videoContainerView.bounds
            // controllsContainerView.frame = videoContainerView.bounds
@@ -222,6 +264,9 @@ class ViewController: UIViewController , ARSCNViewDelegate {
             sceneView.scene.rootNode.addChildNode(self.drone)
             self.drone.isPaused = true
             self.viewBottomLeft.isHidden = false
+        self.imageRace.isHidden = false
+        self.dronOffView.isHidden = false
+
             self.viewBottomRight.isHidden = false
             self.viewBottomCenter.isHidden = false
             self.topHeaderView.isHidden = true
@@ -428,6 +473,7 @@ class ViewController: UIViewController , ARSCNViewDelegate {
  
     // 2.
     func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
+
         let grid = self.grids.filter { grid in
             return grid.anchor.identifier == anchor.identifier
             }.first
@@ -439,6 +485,13 @@ class ViewController: UIViewController , ARSCNViewDelegate {
         foundGrid.update(anchor: anchor as! ARPlaneAnchor)
     }
     
+    func renderer(_ renderer: SCNSceneRenderer, didRemove node: SCNNode, for anchor: ARAnchor) {
+        DispatchQueue.main.async {
+          
+            self.grids.removeAll()
+            
+        }
+    }
     
     
 //    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
