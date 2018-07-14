@@ -16,17 +16,16 @@ let kRotationRadianPerLoop: CGFloat = 0.2
 var toggleStateDroneOnOff = 2
 var toggleStatelightOnOff = 2
 
-var xPos:CGFloat = 0.0
-var yPos:CGFloat = 0.0
-var zPos:CGFloat = 0.0
-var yy:CGFloat = 0.0
+//var xPos:CGFloat = 0.0
+//var yPos:CGFloat = 0.0
+//var zPos:CGFloat = 0.0
 
 class ViewController: UIViewController , ARSCNViewDelegate {
     
     @IBOutlet weak var viewTop: UIView!
     var player: AVPlayer?
     var isVideoFinish : Bool = false
-    
+
     var layer:  AVPlayerLayer?
     @IBOutlet weak var videoViewContainer: UIView!
     @IBOutlet weak var questionView: UIView!
@@ -47,7 +46,6 @@ class ViewController: UIViewController , ARSCNViewDelegate {
     var grids = [Grid]()
     let drone = SCNNode()
 
-
     var planeAnchor: ARPlaneAnchor?
 
     override func viewDidLoad() {
@@ -61,8 +59,8 @@ class ViewController: UIViewController , ARSCNViewDelegate {
         btn2.clipsToBounds = true
         btn3.layer.cornerRadius = btn1.frame.width / 2
         btn3.clipsToBounds = true
-        self.view.addSubview(self.videoViewContainer)
-        initializeVideoPlayerWithVideo()
+//        self.view.addSubview(self.videoViewContainer)
+//        initializeVideoPlayerWithVideo()
     }
     
     func initializeVideoPlayerWithVideo() {
@@ -95,11 +93,11 @@ class ViewController: UIViewController , ARSCNViewDelegate {
         if (UIDevice.current.orientation.isLandscape) {
             if isVideoFinish == false {
                 DispatchQueue.main.async {
-                    self.view.didAddSubview(self.videoViewContainer)
-                    self.layer = AVPlayerLayer(player: self.player!)
-                    self.layer?.frame = self.view.frame
-                    self.layer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
-                    self.videoViewContainer.layer.addSublayer(self.layer!)
+//                    self.view.didAddSubview(self.videoViewContainer)
+//                    self.layer = AVPlayerLayer(player: self.player!)
+//                    self.layer?.frame = self.view.frame
+//                    self.layer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
+//                    self.videoViewContainer.layer.addSublayer(self.layer!)
                 }
             }
             print("Device is landscape")
@@ -145,7 +143,9 @@ class ViewController: UIViewController , ARSCNViewDelegate {
     }
     
     @IBAction func loadDroneAction(_ sender: Any) {
+        if self.planeAnchor != nil {
         addDrone()
+        }
     }
     
     func addDrone() {
@@ -194,22 +194,35 @@ class ViewController: UIViewController , ARSCNViewDelegate {
     
     // End
     
+    private func execute(action: SCNAction, sender: UILongPressGestureRecognizer) {
+        let loopAction = SCNAction.repeatForever(action)
+        if sender.state == .began {
+            drone.runAction(loopAction)
+        } else if sender.state == .ended {
+            drone.removeAllActions()
+        }
+    }
+    
     @IBAction func upLongPressed(_ sender: UILongPressGestureRecognizer) {
         let action = SCNAction.moveBy(x: 0, y: kMovingLengthPerLoop, z: 0, duration: kAnimationDurationMoving)
         execute(action: action, sender: sender)
-//        // Added by Akhzar Nazir
-//        let y = deltas().cos
-//        let z = -deltas().sin
-//        moveDroneUpDown(y: y, z: z, sender: sender)
     }
     
     @IBAction func downLongPressed(_ sender: UILongPressGestureRecognizer) {
-        let action = SCNAction.moveBy(x: 0, y: -kMovingLengthPerLoop, z: 0, duration: kAnimationDurationMoving)
-        execute(action: action, sender: sender)
-        // Added by Akhzar Nazir
-//        let y = -deltas().cos
-//        let z = deltas().sin
-//        moveDroneUpDown(y: y, z: z, sender: sender)
+        let action = SCNAction.moveBy(x: 0, y: -0.005, z: 0, duration: kAnimationDurationMoving)
+//        execute(action: action, sender: sender)
+        let loopAction = SCNAction.repeatForever(action)
+        if sender.state == .changed {
+            print(drone.position.y)
+            print(planeAnchor?.transform.columns.3.y ?? 0)
+            if drone.position.y>(planeAnchor?.transform.columns.3.y)!{
+                drone.runAction(loopAction)
+            }else{
+                drone.removeAllActions()
+            }
+        } else if sender.state == .ended {
+            drone.removeAllActions()
+        }
     }
     
     @IBAction func moveLeftLongPressed(_ sender: UILongPressGestureRecognizer) {
@@ -260,15 +273,6 @@ class ViewController: UIViewController , ARSCNViewDelegate {
         execute(action: action, sender: sender)
     }
     
-    private func execute(action: SCNAction, sender: UILongPressGestureRecognizer) {
-        let loopAction = SCNAction.repeatForever(action)
-        if sender.state == .began {
-            drone.runAction(loopAction)
-        } else if sender.state == .ended {
-            drone.removeAllActions()
-        }
-    }
-    
     private func deltas() -> (sin: CGFloat, cos: CGFloat) {
         return (sin: kMovingLengthPerLoop * CGFloat(sin(drone.eulerAngles.y)), cos: kMovingLengthPerLoop * CGFloat(cos(drone.eulerAngles.y)))
     }
@@ -287,13 +291,10 @@ class ViewController: UIViewController , ARSCNViewDelegate {
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         
         guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
-        
         if self.planeAnchor == nil {
             self.planeAnchor = planeAnchor
-            
             // Clear out the debugging options once a plane has been detected
             self.sceneView.debugOptions = []
-            
             self.loadDragonScene(with: planeAnchor)
             let grid = Grid(anchor: anchor as! ARPlaneAnchor)
             self.grids.append(grid)
@@ -302,25 +303,22 @@ class ViewController: UIViewController , ARSCNViewDelegate {
     }
     
     func loadDragonScene(with anchor: ARPlaneAnchor) {
-        
         let dragonScene = SCNScene(named: "001_Drone.dae")!
-        let position = anchor.transform
-        
+        let positionAnchor = anchor.transform
         for childNode in dragonScene.rootNode.childNodes {
             self.drone.addChildNode(childNode)
         }
         
         let scale:Float = 0.002
         self.drone.scale = SCNVector3(x: scale, y: scale, z: scale)
-        self.drone.position = SCNVector3(x: position.columns.3.x, y: position.columns.3.y, z: position.columns.3.z)
-        xPos = CGFloat(position.columns.3.x)
-        yPos = CGFloat(position.columns.3.y)
-        zPos = CGFloat(position.columns.3.z)
-        //        sceneView.scene.rootNode.addChildNode(self.drone)
+        self.drone.position = SCNVector3(x: positionAnchor.columns.3.x, y: positionAnchor.columns.3.y+0.05, z: positionAnchor.columns.3.z)
+       
+//        xPos = CGFloat(position.columns.3.x)
+//        yPos = CGFloat(position.columns.3.y)
+//        zPos = CGFloat(position.columns.3.z)
+//        sceneView.scene.rootNode.addChildNode(self.drone)
 
     }
-    
-    
     
     // MARK: - ARSCNViewDelegate
     
@@ -332,8 +330,7 @@ class ViewController: UIViewController , ARSCNViewDelegate {
      return node
      }
      */
-    
-    
+
 //    func session(_ session: ARSession, didFailWithError error: Error) {
 //        // Present an error message to the user
 //    }
