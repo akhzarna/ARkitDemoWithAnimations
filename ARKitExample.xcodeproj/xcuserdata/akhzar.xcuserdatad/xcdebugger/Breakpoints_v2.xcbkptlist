@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ARKitExample/ViewController.swift"
-            timestampString = "553443591.020108"
+            timestampString = "553470599.551805"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "194"
-            endingLineNumber = "194"
-            landmarkName = "addDrone()"
+            startingLineNumber = "245"
+            endingLineNumber = "245"
+            landmarkName = "lightsOnOffTapPressed(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
