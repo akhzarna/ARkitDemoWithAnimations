@@ -18,6 +18,7 @@ var toggleStatelightOnOff = 2
 
 class ViewController: UIViewController , ARSCNViewDelegate {
     
+    @IBOutlet weak var imgSimple: UIImageView!
     @IBOutlet weak var viewTop: UIView!
     var player: AVPlayer?
     var isVideoFinish : Bool = false
@@ -48,9 +49,7 @@ class ViewController: UIViewController , ARSCNViewDelegate {
     let drone = SCNNode()
 
     @IBOutlet weak var droneOffXPosition: NSLayoutConstraint!
-    
     @IBOutlet weak var dronYPosition: NSLayoutConstraint!
-    
     
     var planeAnchor: ARPlaneAnchor?
     /// Convenience accessor for the session owned by ARSCNView.
@@ -71,6 +70,20 @@ class ViewController: UIViewController , ARSCNViewDelegate {
         btn3.clipsToBounds = true
 //        self.view.addSubview(self.videoViewContainer)
 //        initializeVideoPlayerWithVideo()
+        
+        let dragonScene = SCNScene(named: "001_Drone.dae")!
+//        let positionAnchor = anchor.transform
+        for childNode in dragonScene.rootNode.childNodes {
+//            if childNode.name == "Omni001"{
+                self.drone.addChildNode(childNode)
+//            }
+            print(childNode)
+        }
+        
+//        if self.drone.name == "Omni001"{
+//            self.drone.light?.intensity = 1000.0
+//        }
+        
     }
     
     func initializeVideoPlayerWithVideo() {
@@ -149,8 +162,8 @@ class ViewController: UIViewController , ARSCNViewDelegate {
     }
     
     func configureLighting() {
-        sceneView.autoenablesDefaultLighting = false
-        sceneView.automaticallyUpdatesLighting = false
+//        sceneView.autoenablesDefaultLighting = true
+//        sceneView.automaticallyUpdatesLighting = true
     }
 
     // MARK: - setup
@@ -169,7 +182,7 @@ class ViewController: UIViewController , ARSCNViewDelegate {
     func setUpSceneView() {
         let configuration = ARWorldTrackingConfiguration()
         configuration.planeDetection = [.horizontal,.vertical]
-        configuration.isLightEstimationEnabled = true
+//        configuration.isLightEstimationEnabled = true
         sceneView.session.run(configuration)
         sceneView.delegate = self
         sceneView.debugOptions = [ARSCNDebugOptions.showFeaturePoints]
@@ -192,9 +205,9 @@ class ViewController: UIViewController , ARSCNViewDelegate {
         self.topHeaderView.isHidden = true
         self.questionView.isHidden = false
         
-        for result in sceneView.hitTest(CGPoint(x: 0.5, y: 0.5), types: [.existingPlaneUsingExtent, .featurePoint]) {
-            print(result.distance, result.worldTransform)
-        }
+//        for result in sceneView.hitTest(CGPoint(x: 0.5, y: 0.5), types: [.existingPlaneUsingExtent, .featurePoint]) {
+//            print(result.distance, result.worldTransform)
+//        }
         
     }
     
@@ -220,15 +233,27 @@ class ViewController: UIViewController , ARSCNViewDelegate {
             self.imgLightsOnOff.image = UIImage(named: "lightsoff")
 //            sceneView.autoenablesDefaultLighting = false
 //            sceneView.automaticallyUpdatesLighting = false
+            for childNodes in self.drone.childNodes{
+                // For Head Lights
+                if childNodes.name == "Omni003"{
+                    childNodes.light?.intensity = 0.0
+                }
+                if childNodes.name == "Omni002"{
+                    childNodes.light?.intensity = 0.0
+                }
+            }
         } else {
             toggleStatelightOnOff = 1
             self.imgLightsOnOff.image = UIImage(named: "lightson")
-//            let omniLight = SCNLight()
-//            omniLight.type = SCNLight.LightType.omni
-//            let omniLightNode = SCNNode()
-//            omniLightNode.light = omniLight
-//            omniLightNode.position = SCNVector3Make(10, 10, 10)
-//            sceneView.scene.rootNode.addChildNode(omniLightNode)
+            for childNodes in self.drone.childNodes{
+                // For Head Lights
+                if childNodes.name == "Omni003"{
+                    childNodes.light?.intensity = 1000.0
+                }
+                if childNodes.name == "Omni002"{
+                    childNodes.light?.intensity = 1000.0
+                }
+            }
         }
     }
     
@@ -245,7 +270,15 @@ class ViewController: UIViewController , ARSCNViewDelegate {
     
     @IBAction func upLongPressed(_ sender: UILongPressGestureRecognizer) {
         let action = SCNAction.moveBy(x: 0, y: kMovingLengthPerLoop, z: 0, duration: kAnimationDurationMoving)
-        execute(action: action, sender: sender)
+//        execute(action: action, sender: sender)
+        let loopAction = SCNAction.repeatForever(action)
+        if sender.state == .began {
+            self.imgSimple.image = UIImage(named: "top")
+            drone.runAction(loopAction)
+        } else if sender.state == .ended {
+            self.imgSimple.image = UIImage(named: "simple")
+            drone.removeAllActions()
+        }
     }
     
     @IBAction func downLongPressed(_ sender: UILongPressGestureRecognizer) {
@@ -256,11 +289,14 @@ class ViewController: UIViewController , ARSCNViewDelegate {
             print(drone.position.y)
             print(planeAnchor?.transform.columns.3.y ?? 0)
             if drone.position.y>(planeAnchor?.transform.columns.3.y)!{
+                self.imgSimple.image = UIImage(named: "bottom")
                 drone.runAction(loopAction)
             }else{
+                self.imgSimple.image = UIImage(named: "simple")
                 drone.removeAllActions()
             }
         } else if sender.state == .ended {
+            self.imgSimple.image = UIImage(named: "simple")
             drone.removeAllActions()
         }
     }
@@ -268,13 +304,33 @@ class ViewController: UIViewController , ARSCNViewDelegate {
     @IBAction func moveLeftLongPressed(_ sender: UILongPressGestureRecognizer) {
         let x = -deltas().cos
         let z = deltas().sin
-        moveDrone(x: x, z: z, sender: sender)
+//        moveDrone(x: x, z: z, sender: sender)
+        let action = SCNAction.moveBy(x: x, y: 0, z: z, duration: kAnimationDurationMoving)
+//        execute(action: action, sender: sender)
+        let loopAction = SCNAction.repeatForever(action)
+        if sender.state == .began {
+            self.imgSimple.image = UIImage(named: "left")
+            drone.runAction(loopAction)
+        } else if sender.state == .ended {
+            self.imgSimple.image = UIImage(named: "simple")
+            drone.removeAllActions()
+        }
     }
     
     @IBAction func moveRightLongPressed(_ sender: UILongPressGestureRecognizer) {
         let x = deltas().cos
         let z = -deltas().sin
-        moveDrone(x: x, z: z, sender: sender)
+//        moveDrone(x: x, z: z, sender: sender)
+        let action = SCNAction.moveBy(x: x, y: 0, z: z, duration: kAnimationDurationMoving)
+//        execute(action: action, sender: sender)
+        let loopAction = SCNAction.repeatForever(action)
+        if sender.state == .began {
+            self.imgSimple.image = UIImage(named: "right")
+            drone.runAction(loopAction)
+        } else if sender.state == .ended {
+            self.imgSimple.image = UIImage(named: "simple")
+            drone.removeAllActions()
+        }
     }
     
     @IBAction func moveForwardLongPressed(_ sender: UILongPressGestureRecognizer) {
@@ -346,8 +402,25 @@ class ViewController: UIViewController , ARSCNViewDelegate {
         let dragonScene = SCNScene(named: "001_Drone.dae")!
         let positionAnchor = anchor.transform
         for childNode in dragonScene.rootNode.childNodes {
+            print(childNode)
             self.drone.addChildNode(childNode)
         }
+        
+//        if self.drone.name == "Omni001"{
+//            self.drone.light?.intensity = 1000.0
+//        }
+//
+//        if self.drone.name == "Omni002"{
+//            self.drone.light?.intensity = 1000.0
+//        }
+//
+//        if self.drone.name == "Omni003"{
+//            self.drone.light?.intensity = 1000.0
+//        }
+//
+//        if self.drone.name == "Omni004"{
+//            self.drone.light?.intensity = 1000.0
+//        }
         
         let scale:Float = 0.002
         self.drone.scale = SCNVector3(x: scale, y: scale, z: scale)

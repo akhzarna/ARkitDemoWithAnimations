@@ -161,7 +161,7 @@
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AcT-Ke-uxH" userLabel="Left Buttons View">
                                 <rect key="frame" x="165" y="547" width="100" height="100"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="leftrightdownup" translatesAutoresizingMaskIntoConstraints="NO" id="G4z-wh-iav">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="simple" translatesAutoresizingMaskIntoConstraints="NO" id="G4z-wh-iav">
                                         <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
                                     </imageView>
                                     <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IXY-Qk-jzG">
@@ -314,6 +314,7 @@
                         <outlet property="imageRace" destination="a6a-Xv-ycc" id="3Vw-XK-Yhg"/>
                         <outlet property="imgDroneOnOff" destination="CoW-Xa-SlD" id="uGI-r9-npS"/>
                         <outlet property="imgLightsOnOff" destination="5Cq-OT-HQH" id="sBh-ti-pR7"/>
+                        <outlet property="imgSimple" destination="G4z-wh-iav" id="AAO-BA-6Ho"/>
                         <outlet property="lightXposition" destination="iYO-BP-1jy" id="Gjd-2U-Lmh"/>
                         <outlet property="questionView" destination="mbx-LS-JJS" id="rp8-Ld-0yo"/>
                         <outlet property="raceXPosition" destination="bek-Xk-4nL" id="QvX-uD-Z2v"/>
@@ -387,13 +388,13 @@
         </scene>
     </scenes>
     <resources>
-        <image name="360turning" width="122" height="122"/>
+        <image name="360turning" width="200" height="200"/>
         <image name="AstroIcon" width="74" height="74"/>
         <image name="PoweredbyFRewards" width="632" height="230"/>
-        <image name="leftrightdownup" width="200" height="200"/>
         <image name="lightsoff.png" width="200" height="200"/>
         <image name="race" width="50" height="96"/>
         <image name="refresh" width="20" height="23"/>
+        <image name="simple" width="200" height="200"/>
         <image name="startdroneoff" width="165" height="165"/>
     </resources>
 </document>
