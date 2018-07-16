@@ -390,10 +390,10 @@
         <image name="360turning" width="122" height="122"/>
         <image name="AstroIcon" width="74" height="74"/>
         <image name="PoweredbyFRewards" width="632" height="230"/>
-        <image name="leftrightdownup" width="135" height="135"/>
+        <image name="leftrightdownup" width="200" height="200"/>
         <image name="lightsoff.png" width="200" height="200"/>
         <image name="race" width="50" height="96"/>
         <image name="refresh" width="20" height="23"/>
-        <image name="startdroneoff" width="96" height="96"/>
+        <image name="startdroneoff" width="165" height="165"/>
     </resources>
 </document>
