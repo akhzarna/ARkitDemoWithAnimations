@@ -160,6 +160,7 @@ class ViewController: UIViewController , ARSCNViewDelegate {
         self.imageRace.animationDuration = 3.0
         self.imageRace.startAnimating()
         
+        //self.imageRace.stopAnimating()
         
         
         setUpSceneView()
