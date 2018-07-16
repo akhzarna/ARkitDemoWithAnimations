@@ -39,6 +39,7 @@ class ViewController: UIViewController , ARSCNViewDelegate {
     @IBOutlet weak var imgLightsOnOff: UIImageView!
     @IBOutlet weak var imgDroneOnOff: UIImageView!
     
+    @IBOutlet weak var imgLeftPressed: UIImageView!
     @IBOutlet weak var lightXposition: NSLayoutConstraint!
     @IBOutlet weak var raceXPosition: NSLayoutConstraint!
     @IBOutlet weak var sceneView: ARSCNView!
@@ -145,6 +146,22 @@ class ViewController: UIViewController , ARSCNViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 //        setupConfiguration()
+        
+        let imgListArray :NSMutableArray = []
+        for countValue in 1...10
+        {
+            
+            let strImageName : String = "\(countValue).png"
+            let image  = UIImage(named:strImageName)
+            imgListArray .add(image!)
+        }
+        
+        self.imageRace.animationImages = imgListArray as? [UIImage]
+        self.imageRace.animationDuration = 3.0
+        self.imageRace.startAnimating()
+        
+        
+        
         setUpSceneView()
     }
     
@@ -218,17 +235,21 @@ class ViewController: UIViewController , ARSCNViewDelegate {
         if toggleStatelightOnOff == 1 {
             toggleStatelightOnOff = 2
             self.imgLightsOnOff.image = UIImage(named: "lightsoff")
-//            sceneView.autoenablesDefaultLighting = false
-//            sceneView.automaticallyUpdatesLighting = false
+            sceneView.autoenablesDefaultLighting = false
+            sceneView.automaticallyUpdatesLighting = false
         } else {
             toggleStatelightOnOff = 1
             self.imgLightsOnOff.image = UIImage(named: "lightson")
-//            let omniLight = SCNLight()
-//            omniLight.type = SCNLight.LightType.omni
-//            let omniLightNode = SCNNode()
-//            omniLightNode.light = omniLight
-//            omniLightNode.position = SCNVector3Make(10, 10, 10)
-//            sceneView.scene.rootNode.addChildNode(omniLightNode)
+          
+            //let omniLight = SCNLight()
+            //omniLight.type = SCNLight.LightType.omni
+            //let omniLightNode = SCNNode()
+            //omniLightNode.light = omniLight
+            sceneView.autoenablesDefaultLighting = true
+            sceneView.automaticallyUpdatesLighting = true
+            
+            //  omniLightNode.position = SCNVector3Make(10, 10, 10)
+           // sceneView.scene.rootNode.addChildNode(omniLightNode)
         }
     }
     
@@ -237,8 +258,12 @@ class ViewController: UIViewController , ARSCNViewDelegate {
     private func execute(action: SCNAction, sender: UILongPressGestureRecognizer) {
         let loopAction = SCNAction.repeatForever(action)
         if sender.state == .began {
+       //     self.imgLeftPressed.backgroundColor = UIColor.lightGray
+            //self.imgLeftPressed. = UIColor.lightGray
             drone.runAction(loopAction)
         } else if sender.state == .ended {
+//            self.imgLeftPressed.backgroundColor = UIColor.white
+
             drone.removeAllActions()
         }
     }
@@ -261,14 +286,18 @@ class ViewController: UIViewController , ARSCNViewDelegate {
                 drone.removeAllActions()
             }
         } else if sender.state == .ended {
+            
             drone.removeAllActions()
         }
     }
     
     @IBAction func moveLeftLongPressed(_ sender: UILongPressGestureRecognizer) {
+        
+        
         let x = -deltas().cos
         let z = deltas().sin
         moveDrone(x: x, z: z, sender: sender)
+        
     }
     
     @IBAction func moveRightLongPressed(_ sender: UILongPressGestureRecognizer) {

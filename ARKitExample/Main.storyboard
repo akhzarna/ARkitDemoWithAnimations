@@ -105,7 +105,7 @@
                                     <constraint firstItem="sQQ-Q1-iih" firstAttribute="leading" secondItem="mbx-LS-JJS" secondAttribute="leading" constant="10" id="xo9-lS-g4w"/>
                                 </constraints>
                             </view>
-                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="race" translatesAutoresizingMaskIntoConstraints="NO" id="a6a-Xv-ycc">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="01" translatesAutoresizingMaskIntoConstraints="NO" id="a6a-Xv-ycc">
                                 <rect key="frame" x="10" y="550" width="50" height="97"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="PYR-38-Osl"/>
@@ -313,6 +313,7 @@
                         <outlet property="droneOffXPosition" destination="LXN-Vi-75l" id="nXH-2e-uD4"/>
                         <outlet property="imageRace" destination="a6a-Xv-ycc" id="3Vw-XK-Yhg"/>
                         <outlet property="imgDroneOnOff" destination="CoW-Xa-SlD" id="uGI-r9-npS"/>
+                        <outlet property="imgLeftPressed" destination="G4z-wh-iav" id="YHU-6Q-OML"/>
                         <outlet property="imgLightsOnOff" destination="5Cq-OT-HQH" id="sBh-ti-pR7"/>
                         <outlet property="lightXposition" destination="iYO-BP-1jy" id="Gjd-2U-Lmh"/>
                         <outlet property="questionView" destination="mbx-LS-JJS" id="rp8-Ld-0yo"/>
@@ -387,12 +388,12 @@
         </scene>
     </scenes>
     <resources>
-        <image name="360turning" width="122" height="122"/>
+        <image name="01" width="447" height="730"/>
+        <image name="360turning" width="200" height="200"/>
         <image name="AstroIcon" width="74" height="74"/>
         <image name="PoweredbyFRewards" width="632" height="230"/>
         <image name="leftrightdownup" width="200" height="200"/>
         <image name="lightsoff.png" width="200" height="200"/>
-        <image name="race" width="50" height="96"/>
         <image name="refresh" width="20" height="23"/>
         <image name="startdroneoff" width="165" height="165"/>
     </resources>
