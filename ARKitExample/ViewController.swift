@@ -69,8 +69,8 @@ class ViewController: UIViewController , ARSCNViewDelegate {
         btn2.clipsToBounds = true
         btn3.layer.cornerRadius = btn1.frame.width / 2
         btn3.clipsToBounds = true
-        self.view.addSubview(self.videoViewContainer)
-        initializeVideoPlayerWithVideo()
+//        self.view.addSubview(self.videoViewContainer)
+//        initializeVideoPlayerWithVideo()
     }
     
     func initializeVideoPlayerWithVideo() {
@@ -100,8 +100,6 @@ class ViewController: UIViewController , ARSCNViewDelegate {
     }
     
     @IBAction func restartActionScan(_ sender: Any) {
-        
-        
 //        self.grids.removeAll()
 //        let configuration = ARWorldTrackingConfiguration()
 //
@@ -113,11 +111,7 @@ class ViewController: UIViewController , ARSCNViewDelegate {
 //        sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
 //
 //        setUpSceneView()
-
-        
-    }
-    
-    
+}
     
     override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         if (UIDevice.current.orientation.isLandscape) {
@@ -127,11 +121,11 @@ class ViewController: UIViewController , ARSCNViewDelegate {
             self.lightXposition.constant = 5
             if isVideoFinish == false {
                 DispatchQueue.main.async {
-                    self.view.didAddSubview(self.videoViewContainer)
-                    self.layer = AVPlayerLayer(player: self.player!)
-                    self.layer?.frame = self.view.frame
-                    self.layer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
-                    self.videoViewContainer.layer.addSublayer(self.layer!)
+//                    self.view.didAddSubview(self.videoViewContainer)
+//                    self.layer = AVPlayerLayer(player: self.player!)
+//                    self.layer?.frame = self.view.frame
+//                    self.layer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
+//                    self.videoViewContainer.layer.addSublayer(self.layer!)
                 }
             }
             print("Device is landscape")
@@ -140,7 +134,6 @@ class ViewController: UIViewController , ARSCNViewDelegate {
             self.raceXPosition.constant = 10
             self.lightXposition.constant = 5
             self.dronYPosition.constant = 10
-
             
             print("Device is portrait")
            // movie.view.frame = videoContainerView.bounds
@@ -189,16 +182,20 @@ class ViewController: UIViewController , ARSCNViewDelegate {
     }
     
     func addDrone() {
-            sceneView.scene.rootNode.addChildNode(self.drone)
-            self.drone.isPaused = true
-            self.viewBottomLeft.isHidden = false
+        sceneView.scene.rootNode.addChildNode(self.drone)
+        self.drone.isPaused = true
+        self.viewBottomLeft.isHidden = false
         self.imageRace.isHidden = false
         self.dronOffView.isHidden = false
-
-            self.viewBottomRight.isHidden = false
-            self.viewBottomCenter.isHidden = false
-            self.topHeaderView.isHidden = true
-            self.questionView.isHidden = false
+        self.viewBottomRight.isHidden = false
+        self.viewBottomCenter.isHidden = false
+        self.topHeaderView.isHidden = true
+        self.questionView.isHidden = false
+        
+        for result in sceneView.hitTest(CGPoint(x: 0.5, y: 0.5), types: [.existingPlaneUsingExtent, .featurePoint]) {
+            print(result.distance, result.worldTransform)
+        }
+        
     }
     
     // MARK: - actions
@@ -208,11 +205,11 @@ class ViewController: UIViewController , ARSCNViewDelegate {
     @IBAction func droneOnOffTapPressed(_ sender: UITapGestureRecognizer) {
         if toggleStateDroneOnOff == 1 {
             toggleStateDroneOnOff = 2
-            self.imgDroneOnOff.image = UIImage(named: "startdroneoff")
+            self.imgDroneOnOff.image = UIImage(named:"startdroneoff")
             self.drone.isPaused = true
         } else {
             toggleStateDroneOnOff = 1
-            self.imgDroneOnOff.image = UIImage(named: "startdroneon")
+            self.imgDroneOnOff.image = UIImage(named:"startdroneon")
             self.drone.isPaused = false
         }
     }
@@ -332,7 +329,6 @@ class ViewController: UIViewController , ARSCNViewDelegate {
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-        
         guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
         if self.planeAnchor == nil {
             self.planeAnchor = planeAnchor
@@ -343,6 +339,7 @@ class ViewController: UIViewController , ARSCNViewDelegate {
             self.grids.append(grid)
             node.addChildNode(grid)
         }
+        
     }
     
     func loadDragonScene(with anchor: ARPlaneAnchor) {
@@ -388,25 +385,22 @@ class ViewController: UIViewController , ARSCNViewDelegate {
 //    
 //    // 1.
  
-    // 2.
-    func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
+    
 
+// 2.
+    func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
         let grid = self.grids.filter { grid in
             return grid.anchor.identifier == anchor.identifier
             }.first
-
         guard let foundGrid = grid else {
             return
         }
-
         foundGrid.update(anchor: anchor as! ARPlaneAnchor)
     }
     
     func renderer(_ renderer: SCNSceneRenderer, didRemove node: SCNNode, for anchor: ARAnchor) {
         DispatchQueue.main.async {
-          
             self.grids.removeAll()
-            
         }
     }
     
