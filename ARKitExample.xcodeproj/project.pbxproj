@@ -12,10 +12,10 @@
 		6179CE831F5EFD6000F1B690 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6179CE821F5EFD6000F1B690 /* ViewController.swift */; };
 		6179CE881F5EFD6000F1B690 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6179CE871F5EFD6000F1B690 /* Assets.xcassets */; };
 		6179CE8B1F5EFD6000F1B690 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6179CE891F5EFD6000F1B690 /* LaunchScreen.storyboard */; };
-		F339851E20F6365300E88B64 /* 001_Drone.dae in Resources */ = {isa = PBXBuildFile; fileRef = F339851C20F6365300E88B64 /* 001_Drone.dae */; };
 		F39836C920F5625A00DC4CFC /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39836C820F5625A00DC4CFC /* Grid.swift */; };
 		F3E85E3A20F686E9009D62F6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F3E85E3920F686E9009D62F6 /* Main.storyboard */; };
 		FC0B1FA020F697D60095D3AA /* animation.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = FC0B1F9F20F697D00095D3AA /* animation.mp4 */; };
+		FC1F822020FD4FD200ED4ABE /* 001_Drone.dae in Resources */ = {isa = PBXBuildFile; fileRef = FC1F821F20FD4FD200ED4ABE /* 001_Drone.dae */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,10 +26,10 @@
 		6179CE871F5EFD6000F1B690 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6179CE8A1F5EFD6000F1B690 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6179CE8C1F5EFD6000F1B690 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F339851C20F6365300E88B64 /* 001_Drone.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = 001_Drone.dae; sourceTree = "<group>"; };
 		F39836C820F5625A00DC4CFC /* Grid.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 		F3E85E3920F686E9009D62F6 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		FC0B1F9F20F697D00095D3AA /* animation.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = animation.mp4; sourceTree = "<group>"; };
+		FC1F821F20FD4FD200ED4ABE /* 001_Drone.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = 001_Drone.dae; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,7 +68,7 @@
 				FC0B1F9F20F697D00095D3AA /* animation.mp4 */,
 				616C11931F62D7150002A468 /* Drone.swift */,
 				F39836C820F5625A00DC4CFC /* Grid.swift */,
-				F339851C20F6365300E88B64 /* 001_Drone.dae */,
+				FC1F821F20FD4FD200ED4ABE /* 001_Drone.dae */,
 				6179CE871F5EFD6000F1B690 /* Assets.xcassets */,
 				6179CE891F5EFD6000F1B690 /* LaunchScreen.storyboard */,
 				6179CE8C1F5EFD6000F1B690 /* Info.plist */,
@@ -138,7 +138,7 @@
 				FC0B1FA020F697D60095D3AA /* animation.mp4 in Resources */,
 				6179CE8B1F5EFD6000F1B690 /* LaunchScreen.storyboard in Resources */,
 				6179CE881F5EFD6000F1B690 /* Assets.xcassets in Resources */,
-				F339851E20F6365300E88B64 /* 001_Drone.dae in Resources */,
+				FC1F822020FD4FD200ED4ABE /* 001_Drone.dae in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

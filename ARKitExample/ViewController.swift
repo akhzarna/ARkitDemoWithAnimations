@@ -40,6 +40,7 @@ class ViewController: UIViewController , ARSCNViewDelegate {
     @IBOutlet weak var imgLightsOnOff: UIImageView!
     @IBOutlet weak var imgDroneOnOff: UIImageView!
     
+    @IBOutlet weak var imgLeftPressed: UIImageView!
     @IBOutlet weak var lightXposition: NSLayoutConstraint!
     @IBOutlet weak var raceXPosition: NSLayoutConstraint!
     @IBOutlet weak var sceneView: ARSCNView!
@@ -71,14 +72,7 @@ class ViewController: UIViewController , ARSCNViewDelegate {
 //        self.view.addSubview(self.videoViewContainer)
 //        initializeVideoPlayerWithVideo()
         
-        let dragonScene = SCNScene(named: "001_Drone.dae")!
-//        let positionAnchor = anchor.transform
-        for childNode in dragonScene.rootNode.childNodes {
-//            if childNode.name == "Omni001"{
-                self.drone.addChildNode(childNode)
-//            }
-            print(childNode)
-        }
+
         
 //        if self.drone.name == "Omni001"{
 //            self.drone.light?.intensity = 1000.0
@@ -158,6 +152,23 @@ class ViewController: UIViewController , ARSCNViewDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 //        setupConfiguration()
+        
+        let imgListArray :NSMutableArray = []
+        for countValue in 1...10
+        {
+            
+            let strImageName : String = "\(countValue).png"
+            let image  = UIImage(named:strImageName)
+            imgListArray .add(image!)
+        }
+        
+        self.imageRace.animationImages = imgListArray as? [UIImage]
+        self.imageRace.animationDuration = 3.0
+        self.imageRace.startAnimating()
+        
+        //self.imageRace.stopAnimating()
+        
+        
         setUpSceneView()
     }
     
@@ -231,8 +242,8 @@ class ViewController: UIViewController , ARSCNViewDelegate {
         if toggleStatelightOnOff == 1 {
             toggleStatelightOnOff = 2
             self.imgLightsOnOff.image = UIImage(named: "lightsoff")
-//            sceneView.autoenablesDefaultLighting = false
-//            sceneView.automaticallyUpdatesLighting = false
+            //            sceneView.autoenablesDefaultLighting = false
+            //            sceneView.automaticallyUpdatesLighting = false
             for childNodes in self.drone.childNodes{
                 // For Head Lights
                 if childNodes.name == "Omni003"{
@@ -257,13 +268,19 @@ class ViewController: UIViewController , ARSCNViewDelegate {
         }
     }
     
+    
+    
     // End
     
     private func execute(action: SCNAction, sender: UILongPressGestureRecognizer) {
         let loopAction = SCNAction.repeatForever(action)
         if sender.state == .began {
+       //     self.imgLeftPressed.backgroundColor = UIColor.lightGray
+            //self.imgLeftPressed. = UIColor.lightGray
             drone.runAction(loopAction)
         } else if sender.state == .ended {
+//            self.imgLeftPressed.backgroundColor = UIColor.white
+
             drone.removeAllActions()
         }
     }
@@ -296,14 +313,20 @@ class ViewController: UIViewController , ARSCNViewDelegate {
                 drone.removeAllActions()
             }
         } else if sender.state == .ended {
+            
             self.imgSimple.image = UIImage(named: "simple")
+
             drone.removeAllActions()
         }
     }
     
     @IBAction func moveLeftLongPressed(_ sender: UILongPressGestureRecognizer) {
+        
+        
         let x = -deltas().cos
         let z = deltas().sin
+        moveDrone(x: x, z: z, sender: sender)
+        
 //        moveDrone(x: x, z: z, sender: sender)
         let action = SCNAction.moveBy(x: x, y: 0, z: z, duration: kAnimationDurationMoving)
 //        execute(action: action, sender: sender)
