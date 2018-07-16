@@ -72,14 +72,7 @@ class ViewController: UIViewController , ARSCNViewDelegate {
 //        self.view.addSubview(self.videoViewContainer)
 //        initializeVideoPlayerWithVideo()
         
-        let dragonScene = SCNScene(named: "001_Drone.dae")!
-//        let positionAnchor = anchor.transform
-        for childNode in dragonScene.rootNode.childNodes {
-//            if childNode.name == "Omni001"{
-                self.drone.addChildNode(childNode)
-//            }
-            print(childNode)
-        }
+
         
 //        if self.drone.name == "Omni001"{
 //            self.drone.light?.intensity = 1000.0
