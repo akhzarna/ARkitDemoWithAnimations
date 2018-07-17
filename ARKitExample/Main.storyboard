@@ -178,7 +178,7 @@
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <gestureRecognizers/>
                                         <connections>
-                                            <outletCollection property="gestureRecognizers" destination="a76-5K-PBY" appends="YES" id="55w-rg-yDt"/>
+                                            <outletCollection property="gestureRecognizers" destination="a76-5K-PBY" appends="YES" id="bXc-52-2P5"/>
                                         </connections>
                                     </imageView>
                                     <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bx2-fe-W7P">
@@ -278,7 +278,7 @@
                                     <constraint firstAttribute="height" constant="97" id="uad-tc-1bh"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fn5-lF-GFO">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fn5-lF-GFO">
                                 <rect key="frame" x="10" y="550" width="50" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="pFU-3z-Jgj"/>
@@ -288,7 +288,7 @@
                                     <action selector="throttleUpLongPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Wmh-0e-2xS"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f4N-px-8fa">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f4N-px-8fa">
                                 <rect key="frame" x="10" y="607" width="50" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="FA7-HE-Jjo"/>
@@ -298,6 +298,24 @@
                                     <action selector="throttleDownLongPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="eeC-cU-kAF"/>
                                 </connections>
                             </button>
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zyM-IH-6z4">
+                                <rect key="frame" x="10" y="552" width="50" height="65"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="T3X-H7-cGP" appends="YES" id="k6G-w7-nr0"/>
+                                </connections>
+                            </imageView>
+                            <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Yrm-hl-i2h">
+                                <rect key="frame" x="10" y="620" width="50" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="D3T-jI-5mm" appends="YES" id="cXn-uu-deK"/>
+                                </connections>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -331,9 +349,6 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="btn1" destination="ieA-3p-eTy" id="1Ok-iH-7KX"/>
-                        <outlet property="btn2" destination="mOR-kj-eDe" id="yRt-Hm-U0G"/>
-                        <outlet property="btn3" destination="CsM-aR-QDV" id="fNB-X5-Rbl"/>
                         <outlet property="dronOffView" destination="wcC-VX-pD1" id="W8P-ek-30S"/>
                         <outlet property="dronYPosition" destination="omI-Ju-A24" id="GiD-Ox-3zz"/>
                         <outlet property="droneOffXPosition" destination="LXN-Vi-75l" id="nXH-2e-uD4"/>
@@ -370,6 +385,16 @@
                         <action selector="lightsOnOffTapPressed:" destination="BYZ-38-t0r" id="uHo-Ot-F2O"/>
                     </connections>
                 </tapGestureRecognizer>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="T3X-H7-cGP">
+                    <connections>
+                        <action selector="ThrottleupLongPressed:" destination="BYZ-38-t0r" id="KKj-3x-Pwp"/>
+                    </connections>
+                </pongPressGestureRecognizer>
+                <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.5" id="D3T-jI-5mm">
+                    <connections>
+                        <action selector="ThrottleDownLongPressed:" destination="BYZ-38-t0r" id="e1i-pX-KV9"/>
+                    </connections>
+                </pongPressGestureRecognizer>
                 <pongPressGestureRecognizer allowableMovement="10" minimumPressDuration="0.0" id="a76-5K-PBY">
                     <connections>
                         <action selector="upLongPressed:" destination="BYZ-38-t0r" id="IlN-ha-5my"/>
