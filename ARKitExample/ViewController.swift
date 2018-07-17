@@ -22,7 +22,9 @@ class ViewController: UIViewController , ARSCNViewDelegate {
     @IBOutlet weak var viewTop: UIView!
     var player: AVPlayer?
     var isVideoFinish : Bool = false
-    
+    var flagThrottleUp:Int = 1
+    var doubleflagThrottleUp:Double = 0.0
+
     @IBOutlet weak var dronOffView: UIView!
 
     var layer:  AVPlayerLayer?
@@ -69,14 +71,8 @@ class ViewController: UIViewController , ARSCNViewDelegate {
         btn2.clipsToBounds = true
         btn3.layer.cornerRadius = btn1.frame.width / 2
         btn3.clipsToBounds = true
-//        self.view.addSubview(self.videoViewContainer)
-//        initializeVideoPlayerWithVideo()
-        
-
-        
-//        if self.drone.name == "Omni001"{
-//            self.drone.light?.intensity = 1000.0
-//        }
+        self.view.addSubview(self.videoViewContainer)
+        initializeVideoPlayerWithVideo()
         
     }
     
@@ -128,11 +124,11 @@ class ViewController: UIViewController , ARSCNViewDelegate {
             self.lightXposition.constant = 5
             if isVideoFinish == false {
                 DispatchQueue.main.async {
-//                    self.view.didAddSubview(self.videoViewContainer)
-//                    self.layer = AVPlayerLayer(player: self.player!)
-//                    self.layer?.frame = self.view.frame
-//                    self.layer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
-//                    self.videoViewContainer.layer.addSublayer(self.layer!)
+                    self.view.didAddSubview(self.videoViewContainer)
+                    self.layer = AVPlayerLayer(player: self.player!)
+                    self.layer?.frame = self.view.frame
+                    self.layer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
+                    self.videoViewContainer.layer.addSublayer(self.layer!)
                 }
             }
             print("Device is landscape")
@@ -153,18 +149,18 @@ class ViewController: UIViewController , ARSCNViewDelegate {
         super.viewWillAppear(animated)
 //        setupConfiguration()
         
-        let imgListArray :NSMutableArray = []
-        for countValue in 1...10
-        {
-            
-            let strImageName : String = "\(countValue).png"
-            let image  = UIImage(named:strImageName)
-            imgListArray .add(image!)
-        }
-        
-        self.imageRace.animationImages = imgListArray as? [UIImage]
-        self.imageRace.animationDuration = 3.0
-        self.imageRace.startAnimating()
+//        let imgListArray :NSMutableArray = []
+//        for countValue in 1...10
+//        {
+//
+//            let strImageName : String = "\(countValue).png"
+//            let image  = UIImage(named:strImageName)
+//            imgListArray .add(image!)
+//        }
+//
+//        self.imageRace.animationImages = imgListArray as? [UIImage]
+//        self.imageRace.animationDuration = 3.0
+//        self.imageRace.startAnimating()
         
         //self.imageRace.stopAnimating()
         
@@ -285,8 +281,41 @@ class ViewController: UIViewController , ARSCNViewDelegate {
         }
     }
     
+    @IBAction func throttleUpLongPressed(_ sender: Any) {
+        var image:UIImage? = nil
+        if self.flagThrottleUp<=9{
+            flagThrottleUp+=1
+            let strImageName : String = "\(flagThrottleUp).png"
+            image = UIImage(named:strImageName)!
+            self.imageRace.image = image
+        }else{
+        let strImageName : String = "\(10).png"
+        image = UIImage(named:strImageName)!
+        self.imageRace.image = image
+        }
+    }
+    
+    @IBAction func throttleDownLongPressed(_ sender: Any) {
+        var image:UIImage? = nil
+        if self.flagThrottleUp>=2{
+            flagThrottleUp-=1
+            let strImageName : String = "\(flagThrottleUp).png"
+            image = UIImage(named:strImageName)!
+            self.imageRace.image = image
+        }else{
+            let strImageName : String = "\(1).png"
+            image = UIImage(named:strImageName)!
+            self.imageRace.image = image
+        }
+        
+    }
+
     @IBAction func upLongPressed(_ sender: UILongPressGestureRecognizer) {
-        let action = SCNAction.moveBy(x: 0, y: kMovingLengthPerLoop, z: 0, duration: kAnimationDurationMoving)
+        doubleflagThrottleUp = Double(flagThrottleUp/2)
+        if doubleflagThrottleUp == 0{
+            doubleflagThrottleUp = 0.5
+        }
+        let action = SCNAction.moveBy(x: 0, y: kMovingLengthPerLoop, z: 0, duration: kAnimationDurationMoving/doubleflagThrottleUp)
 //        execute(action: action, sender: sender)
         let loopAction = SCNAction.repeatForever(action)
         if sender.state == .began {
@@ -296,10 +325,15 @@ class ViewController: UIViewController , ARSCNViewDelegate {
             self.imgSimple.image = UIImage(named: "simple")
             drone.removeAllActions()
         }
+        
     }
     
     @IBAction func downLongPressed(_ sender: UILongPressGestureRecognizer) {
-        let action = SCNAction.moveBy(x: 0, y: -0.005, z: 0, duration: kAnimationDurationMoving)
+        doubleflagThrottleUp = Double(flagThrottleUp/2)
+        if doubleflagThrottleUp == 0{
+            doubleflagThrottleUp = 0.5
+        }
+        let action = SCNAction.moveBy(x: 0, y: -0.005, z: 0, duration:kAnimationDurationMoving/doubleflagThrottleUp)
 //        execute(action: action, sender: sender)
         let loopAction = SCNAction.repeatForever(action)
         if sender.state == .changed {
@@ -313,22 +347,22 @@ class ViewController: UIViewController , ARSCNViewDelegate {
                 drone.removeAllActions()
             }
         } else if sender.state == .ended {
-            
             self.imgSimple.image = UIImage(named: "simple")
-
             drone.removeAllActions()
         }
     }
     
     @IBAction func moveLeftLongPressed(_ sender: UILongPressGestureRecognizer) {
         
-        
         let x = -deltas().cos
         let z = deltas().sin
-        moveDrone(x: x, z: z, sender: sender)
-        
 //        moveDrone(x: x, z: z, sender: sender)
-        let action = SCNAction.moveBy(x: x, y: 0, z: z, duration: kAnimationDurationMoving)
+        doubleflagThrottleUp = Double(flagThrottleUp/2)
+        if doubleflagThrottleUp == 0{
+            doubleflagThrottleUp = 0.5
+        }
+//        moveDrone(x: x, z: z, sender: sender)
+        let action = SCNAction.moveBy(x: x, y: 0, z: z, duration:kAnimationDurationMoving/doubleflagThrottleUp)
 //        execute(action: action, sender: sender)
         let loopAction = SCNAction.repeatForever(action)
         if sender.state == .began {
@@ -343,8 +377,12 @@ class ViewController: UIViewController , ARSCNViewDelegate {
     @IBAction func moveRightLongPressed(_ sender: UILongPressGestureRecognizer) {
         let x = deltas().cos
         let z = -deltas().sin
+        doubleflagThrottleUp = Double(flagThrottleUp/2)
+        if doubleflagThrottleUp == 0{
+            doubleflagThrottleUp = 0.5
+        }
 //        moveDrone(x: x, z: z, sender: sender)
-        let action = SCNAction.moveBy(x: x, y: 0, z: z, duration: kAnimationDurationMoving)
+        let action = SCNAction.moveBy(x: x, y: 0, z: z, duration:kAnimationDurationMoving/doubleflagThrottleUp)
 //        execute(action: action, sender: sender)
         let loopAction = SCNAction.repeatForever(action)
         if sender.state == .began {

@@ -105,13 +105,6 @@
                                     <constraint firstItem="sQQ-Q1-iih" firstAttribute="leading" secondItem="mbx-LS-JJS" secondAttribute="leading" constant="10" id="xo9-lS-g4w"/>
                                 </constraints>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="01" translatesAutoresizingMaskIntoConstraints="NO" id="a6a-Xv-ycc">
-                                <rect key="frame" x="10" y="550" width="50" height="97"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="50" id="PYR-38-Osl"/>
-                                    <constraint firstAttribute="height" constant="97" id="uad-tc-1bh"/>
-                                </constraints>
-                            </imageView>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HeN-yf-Kg3">
                                 <rect key="frame" x="65" y="537" width="100" height="110"/>
                                 <subviews>
@@ -278,6 +271,33 @@
                                     <constraint firstItem="4cv-gt-rvy" firstAttribute="top" secondItem="Huz-8V-WtG" secondAttribute="top" id="xqg-DK-Zfx"/>
                                 </constraints>
                             </view>
+                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1" translatesAutoresizingMaskIntoConstraints="NO" id="a6a-Xv-ycc">
+                                <rect key="frame" x="10" y="550" width="50" height="97"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="PYR-38-Osl"/>
+                                    <constraint firstAttribute="height" constant="97" id="uad-tc-1bh"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fn5-lF-GFO">
+                                <rect key="frame" x="10" y="550" width="50" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="pFU-3z-Jgj"/>
+                                    <constraint firstAttribute="height" constant="40" id="vIZ-2g-m6X"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="throttleUpLongPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Wmh-0e-2xS"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f4N-px-8fa">
+                                <rect key="frame" x="10" y="607" width="50" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="FA7-HE-Jjo"/>
+                                    <constraint firstAttribute="height" constant="40" id="K19-Uc-o1u"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="throttleDownLongPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="eeC-cU-kAF"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -286,17 +306,23 @@
                             <constraint firstItem="Huz-8V-WtG" firstAttribute="leading" secondItem="AcT-Ke-uxH" secondAttribute="trailing" constant="10" id="Ahn-dT-YxL"/>
                             <constraint firstAttribute="trailing" secondItem="RNE-qf-e5R" secondAttribute="trailing" id="F9T-Pg-l8z"/>
                             <constraint firstItem="mbx-LS-JJS" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Ffl-1N-V2z"/>
+                            <constraint firstItem="f4N-px-8fa" firstAttribute="height" secondItem="fn5-lF-GFO" secondAttribute="height" id="Fk3-nF-WxT"/>
                             <constraint firstItem="RNE-qf-e5R" firstAttribute="top" secondItem="Lb7-CF-rGi" secondAttribute="bottom" id="K3R-NE-RlX"/>
                             <constraint firstItem="wcC-VX-pD1" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="90" id="LXN-Vi-75l"/>
                             <constraint firstItem="cJN-SC-bG9" firstAttribute="top" secondItem="a6a-Xv-ycc" secondAttribute="bottom" constant="20" id="bPW-Ag-7ag"/>
                             <constraint firstItem="cJN-SC-bG9" firstAttribute="top" secondItem="Huz-8V-WtG" secondAttribute="bottom" constant="10" id="bai-GD-aJt"/>
                             <constraint firstItem="a6a-Xv-ycc" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="10" id="bek-Xk-4nL"/>
+                            <constraint firstItem="fn5-lF-GFO" firstAttribute="centerX" secondItem="a6a-Xv-ycc" secondAttribute="centerX" id="cPa-oS-yQZ"/>
                             <constraint firstItem="RNE-qf-e5R" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="cfd-JN-nf0"/>
                             <constraint firstItem="cJN-SC-bG9" firstAttribute="top" secondItem="QBB-qo-KCt" secondAttribute="bottom" id="dPi-7T-tHy"/>
+                            <constraint firstItem="f4N-px-8fa" firstAttribute="centerX" secondItem="a6a-Xv-ycc" secondAttribute="centerX" id="dig-Ll-Hep"/>
+                            <constraint firstItem="f4N-px-8fa" firstAttribute="width" secondItem="fn5-lF-GFO" secondAttribute="width" id="gWb-Df-yNB"/>
                             <constraint firstItem="QBB-qo-KCt" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="iPb-SM-a5b"/>
                             <constraint firstItem="HeN-yf-Kg3" firstAttribute="leading" secondItem="a6a-Xv-ycc" secondAttribute="trailing" constant="5" id="iYO-BP-1jy"/>
+                            <constraint firstItem="f4N-px-8fa" firstAttribute="bottom" secondItem="a6a-Xv-ycc" secondAttribute="bottom" id="iid-Mz-m9R"/>
                             <constraint firstAttribute="trailing" secondItem="mbx-LS-JJS" secondAttribute="trailing" id="nhy-jW-oWV"/>
                             <constraint firstItem="wcC-VX-pD1" firstAttribute="top" secondItem="HeN-yf-Kg3" secondAttribute="top" constant="10" id="omI-Ju-A24"/>
+                            <constraint firstItem="fn5-lF-GFO" firstAttribute="top" secondItem="a6a-Xv-ycc" secondAttribute="top" id="t6e-87-7db"/>
                             <constraint firstItem="cJN-SC-bG9" firstAttribute="top" secondItem="AcT-Ke-uxH" secondAttribute="bottom" constant="20" id="tH7-XL-hUb"/>
                             <constraint firstItem="mbx-LS-JJS" firstAttribute="top" secondItem="RNE-qf-e5R" secondAttribute="top" id="tU5-UI-aL7"/>
                             <constraint firstItem="QBB-qo-KCt" firstAttribute="top" secondItem="Lb7-CF-rGi" secondAttribute="bottom" constant="-20" id="vfX-JW-4qN"/>
@@ -389,7 +415,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="01" width="447" height="730"/>
+        <image name="1" width="447" height="730"/>
         <image name="360turning" width="200" height="200"/>
         <image name="AstroIcon" width="74" height="74"/>
         <image name="PoweredbyFRewards" width="632" height="230"/>
